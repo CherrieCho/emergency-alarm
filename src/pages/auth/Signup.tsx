@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
   TextField,
   Typography,
@@ -18,11 +17,11 @@ const Wrapper = styled(Box)(({ theme }) => ({
   fontFamily: theme.typography.fontFamily,
 }));
 
-const LoginCard = styled(Paper)(({ theme }) => ({
+const SignupCard = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(5),
-  maxWidth: 420,
+  maxWidth: 460,
   width: '100%',
-  backgroundColor: '#fff', // 또는 theme.palette.background.paper
+  backgroundColor: '#fff',
   borderRadius: theme.spacing(2),
   boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
 }));
@@ -39,7 +38,7 @@ const Subtitle = styled(Typography)(({ theme }) => ({
   marginBottom: theme.spacing(3),
 }));
 
-const SignupText = styled(Typography)(({ theme }) => ({
+const LoginLink = styled(Typography)(({ theme }) => ({
   ...theme.typography.body1,
   textAlign: 'center',
   color: theme.palette.primary.main,
@@ -47,23 +46,28 @@ const SignupText = styled(Typography)(({ theme }) => ({
   cursor: 'pointer',
 }));
 
-const Auth = () => {
+const Signup = () => {
   const [email, setEmail] = useState('');
+  const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();
+  const [confirmPassword, setConfirmPassword] = useState('');
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('로그인 시도:', { email, password });
+    if (password !== confirmPassword) {
+      alert('비밀번호가 일치하지 않습니다.');
+      return;
+    }
+    console.log('회원가입 시도:', { email, nickname, password });
   };
 
   return (
     <Wrapper>
-      <LoginCard elevation={6}>
-        <Title>재난알림 로그인</Title>
-        <Subtitle>이메일과 비밀번호를 입력해주세요.</Subtitle>
+      <SignupCard elevation={6}>
+        <Title>회원가입</Title>
+        <Subtitle>필수 정보를 입력해주세요.</Subtitle>
 
-        <Box component="form" onSubmit={handleLogin}>
+        <Box component="form" onSubmit={handleSignup}>
           <TextField
             fullWidth
             label="이메일"
@@ -75,11 +79,28 @@ const Auth = () => {
           />
           <TextField
             fullWidth
+            label="닉네임"
+            margin="normal"
+            value={nickname}
+            onChange={(e) => setNickname(e.target.value)}
+            required
+          />
+          <TextField
+            fullWidth
             label="비밀번호"
             type="password"
             margin="normal"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <TextField
+            fullWidth
+            label="비밀번호 확인"
+            type="password"
+            margin="normal"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
           <Button
@@ -90,19 +111,19 @@ const Auth = () => {
             size="large"
             sx={{ mt: 3 }}
           >
-            로그인
+            회원가입 완료
           </Button>
 
           <Typography variant="body1" textAlign="center" sx={{ mt: 2 }}>
-            아직 계정이 없으신가요?
+            이미 계정이 있으신가요?
           </Typography>
-          <SignupText onClick={() => navigate('/signup')}>
-            회원가입
-          </SignupText>
+          <LoginLink onClick={() => alert('로그인으로 이동')}>
+            로그인
+          </LoginLink>
         </Box>
-      </LoginCard>
+      </SignupCard>
     </Wrapper>
   );
 };
 
-export default Auth;
+export default Signup;
