@@ -1,34 +1,29 @@
 import React from 'react';
-import { Box, Typography, Paper, CircularProgress } from '@mui/material';
-import useSafetyDisasterMessages from '../../hooks/useDisasterMessages';
+import KoreaMap from './components/koreaMap/KoreaMap';
+import MainDisasterDetailList from './components/mainDisasterDetailList/MainDisasterDetailList';
+import { Box } from '@mui/material';
+import SpeechBubble from './components/letter/SpeechBubble';
 
-const MainPage = () => {
-  const { data, isLoading, error } = useSafetyDisasterMessages();
-
-  if (isLoading) return <CircularProgress />;
-  if (error) return <Typography color="error">에러 발생</Typography>;
-
+// 데이터 가져와서 보내주기
+export const MainPage = () => {
+  const handleRegionClick = (region: string) => {
+    alert(region);
+    console.log(region);
+  };
   return (
-    <Box p={4}>
-      <Typography variant="h1" gutterBottom>
-        긴급 재난 문자
-      </Typography>
-
-      {data?.body?.map((item: any, index: number) => (
-        <Paper key={item.SN ?? index} sx={{ mb: 2, p: 2 }}>
-          <Typography variant="h2" gutterBottom>
-            {item.RCPTN_RGN_NM} {/* 지역명 */}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            {item.MSG_CN} {/* 메시지 본문 */}
-          </Typography>
-          <Typography variant="subtitle1" color="text.secondary">
-            {item.CRT_DT} {/* 수신일시 */}
-          </Typography>
-        </Paper>
-      ))}
+    <Box display={'flex'} flexDirection={'row'} justifyContent={'space-around'}>
+      <MainDisasterDetailList />
+      <Box
+        sx={{
+          backgroundColor: '#D2D2D2',
+          border: '1px solid #ccc', 
+        }}
+      ></Box>
+      <KoreaMap handleRegionClick={handleRegionClick} />
+      {/* <div>
+        <SpeechBubble />
+      </div> */}
     </Box>
   );
 };
 
-export default MainPage;
