@@ -15,8 +15,8 @@ export const MainPage = () => {
       <MainDisasterDetailList />
       <Box
         sx={{
-          backgroundColor: '#D2D2D2', // 흰색 배경
-          border: '1px solid #ccc', // 회색 테두리
+          backgroundColor: '#D2D2D2',
+          border: '1px solid #ccc', 
         }}
       ></Box>
       <KoreaMap handleRegionClick={handleRegionClick} />
@@ -26,3 +26,4 @@ export const MainPage = () => {
     </Box>
   );
 };
+
