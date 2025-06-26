@@ -21,6 +21,10 @@ const theme = createTheme({
       300: '#D2D2D2', //border 색상
       700: '#333333',
     },
+    action: {
+      hover: '#F5F5F5',
+      active: '#F5F5F5',
+    },
   },
   typography: {
     fontFamily: 'SUIT, sans-serif',
