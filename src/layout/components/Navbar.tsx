@@ -2,21 +2,41 @@ import {
   AppBar,
   Box,
   Button,
+  Drawer,
   IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
   styled,
   Toolbar,
+  Typography,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import React from 'react';
+import React, { useState } from 'react';
 import LogoImg from '../../assets/logo.png';
 import theme from '../../theme';
+import CloseIcon from '@mui/icons-material/Close';
+import HomeIcon from '@mui/icons-material/Home';
+import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
+
+const drawerWidth = '100vw'; // drawer를 화면 전체 너비로
 
 const AuthButton = styled(Button)({
   borderRadius: '12px',
   border: '1px solid #EBEBEB',
   padding: '10px 12px',
-  fontWeight: 600,
 });
+
+const AuthButtonMobile = styled(Button)(({ theme }) => ({
+  backgroundColor: theme.palette.primary.main,
+  color: 'white',
+  borderRadius: '12px',
+  border: 0,
+  padding: '15px',
+  width: '100%',
+}));
 
 const LogoImage = styled('img')({
   display: 'block',
@@ -24,7 +44,96 @@ const LogoImage = styled('img')({
   height: 'auto',
 });
 
+const MobileMenuBox = styled(Box)(({ theme }) => ({
+  [theme.breakpoints.up('sm')]: {
+    display: 'none',
+  },
+  [theme.breakpoints.down('sm')]: {
+    display: 'block',
+  },
+}));
+
+const AuthBox = styled(Box)(({ theme }) => ({
+  [theme.breakpoints.down('sm')]: {
+    display: 'none',
+  },
+}));
+
 const Navbar = () => {
+  const [open, setOpen] = useState<boolean>(false);
+
+  //모바일 슬라이드 메뉴 오픈
+  const toggleDrawer = (state: boolean) => () => {
+    setOpen(state);
+  };
+
+  //drawer 내용
+  const drawerList = (
+    <Box
+      sx={{
+        width: drawerWidth,
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        backgroundColor: 'white',
+      }}
+      role='presentation'
+    >
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: 2 }}>
+        <IconButton onClick={toggleDrawer(false)} sx={{ color: 'black' }}>
+          <CloseIcon />
+        </IconButton>
+      </Box>
+      <Box sx={{ width: '150px', padding: '1em', paddingTop: 0 }}>
+        <LogoImage src={LogoImg} alt='logo-image' />
+      </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '1em 1.5em',
+        }}
+      >
+        <AuthButtonMobile>
+          <Typography variant='h2' sx={{ fontSize: '18px' }}>
+            로그인 / 회원가입
+          </Typography>
+        </AuthButtonMobile>
+      </Box>
+      {/* 메뉴 리스트 */}
+      <List sx={{ paddingTop: '1.5em' }}>
+        <ListItem sx={{ padding: '10px 0' }}>
+          <ListItemButton>
+            <ListItemIcon sx={{ color: '#333333' }}>
+              <HomeIcon />
+            </ListItemIcon>
+            <Typography
+              variant='body1'
+              sx={{ fontWeight: 'bold', color: '#333333' }}
+            >
+              홈으로
+            </Typography>
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem sx={{ padding: '10px 0' }}>
+          <ListItemButton>
+            <ListItemIcon sx={{ color: '#333333' }}>
+              <DirectionsRunIcon />
+            </ListItemIcon>
+            <Typography
+              variant='body1'
+              sx={{ fontWeight: 'bold', color: '#333333' }}
+            >
+              재난 행동요령
+            </Typography>
+          </ListItemButton>
+        </ListItem>
+      </List>
+    </Box>
+  );
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
@@ -50,15 +159,6 @@ const Navbar = () => {
             height: 'inherit',
           }}
         >
-          {/* <IconButton
-            size='large'
-            edge='start'
-            color='inherit'
-            aria-label='menu'
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton> */}
           <Box
             sx={{
               width: '150px',
@@ -69,9 +169,33 @@ const Navbar = () => {
           >
             <LogoImage src={LogoImg} alt='logo-image' />
           </Box>
-          <AuthButton>로그인 / 회원가입</AuthButton>
+          <MobileMenuBox>
+            <IconButton
+              size='large'
+              edge='start'
+              aria-label='menu'
+              onClick={toggleDrawer(true)}
+              sx={{ mr: 2, color: 'black', margin: 0 }}
+            >
+              <MenuIcon />
+            </IconButton>
+          </MobileMenuBox>
+          <AuthBox>
+            <AuthButton>로그인 / 회원가입</AuthButton>
+          </AuthBox>
         </Toolbar>
       </AppBar>
+
+      <Drawer
+        anchor='right'
+        open={open}
+        onClose={toggleDrawer(false)}
+        sx={{
+          width: drawerWidth,
+        }}
+      >
+        {drawerList}
+      </Drawer>
     </Box>
   );
 };
