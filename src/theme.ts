@@ -18,7 +18,7 @@ const theme = createTheme({
     },
     grey: {
       100: '#F5F5F5', //카드 배경색 등
-      300: '#D2D2D2', //border 색상
+      300: '#EBEBEB', //border 색상
       700: '#333333',
     },
     action: {
