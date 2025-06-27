@@ -20,6 +20,8 @@ import theme from '../../theme';
 import CloseIcon from '@mui/icons-material/Close';
 import HomeIcon from '@mui/icons-material/Home';
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const drawerWidth = '100vw'; // drawer를 화면 전체 너비로
 
@@ -61,10 +63,26 @@ const AuthBox = styled(Box)(({ theme }) => ({
 
 const Navbar = () => {
   const [open, setOpen] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   //모바일 슬라이드 메뉴 오픈
   const toggleDrawer = (state: boolean) => () => {
     setOpen(state);
+  };
+
+  const goToLogin = () => {
+    navigate('/login');
+    setOpen(false);
+  };
+
+  const goToMain = () => {
+    navigate('/');
+    setOpen(false);
+  };
+
+  const goToGuide = () => {
+    navigate('/guideline');
+    setOpen(false);
   };
 
   //drawer 내용
@@ -95,7 +113,7 @@ const Navbar = () => {
           padding: '1em 1.5em',
         }}
       >
-        <AuthButtonMobile>
+        <AuthButtonMobile onClick={goToLogin}>
           <Typography variant='h2' sx={{ fontSize: '18px' }}>
             로그인 / 회원가입
           </Typography>
@@ -104,7 +122,7 @@ const Navbar = () => {
       {/* 메뉴 리스트 */}
       <List sx={{ paddingTop: '1.5em' }}>
         <ListItem sx={{ padding: '10px 0' }}>
-          <ListItemButton>
+          <ListItemButton onClick={goToMain}>
             <ListItemIcon sx={{ color: '#333333' }}>
               <HomeIcon />
             </ListItemIcon>
@@ -118,7 +136,7 @@ const Navbar = () => {
         </ListItem>
 
         <ListItem sx={{ padding: '10px 0' }}>
-          <ListItemButton>
+          <ListItemButton onClick={goToGuide}>
             <ListItemIcon sx={{ color: '#333333' }}>
               <DirectionsRunIcon />
             </ListItemIcon>
@@ -162,12 +180,13 @@ const Navbar = () => {
           <Box
             sx={{
               width: '150px',
+              cursor: 'pointer',
               [theme.breakpoints.down('sm')]: {
                 width: '95px',
               },
             }}
           >
-            <LogoImage src={LogoImg} alt='logo-image' />
+            <LogoImage src={LogoImg} alt='logo-image' onClick={goToMain} />
           </Box>
           <MobileMenuBox>
             <IconButton
@@ -181,7 +200,7 @@ const Navbar = () => {
             </IconButton>
           </MobileMenuBox>
           <AuthBox>
-            <AuthButton>로그인 / 회원가입</AuthButton>
+            <AuthButton onClick={goToLogin}>로그인 / 회원가입</AuthButton>
           </AuthBox>
         </Toolbar>
       </AppBar>
