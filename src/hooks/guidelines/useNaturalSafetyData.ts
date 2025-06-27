@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import naturalSafetyApi from '../../utils/guideApi';
 
 const fetchSafetyData = async () => {
-  const res = await naturalSafetyApi.get('', {
+  const res = await naturalSafetyApi.get('/V2/api/DSSP-IF-20588', {
     params: {
       returnType: 'json',
       pageNo: '1',
