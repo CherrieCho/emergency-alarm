@@ -1,6 +1,11 @@
 import { Box, Typography, Button, styled, useTheme } from '@mui/material';
 import RoomIcon from '@mui/icons-material/Room';
-import WarningIcon from '@mui/icons-material/Warning';
+import { CATEGORY_LIST, REGIONS } from './constants';
+import SafetyDisastermessageCard from './components/SafetyDisastermessageCard';
+import { useState } from 'react';
+import RegionSelectModal from './components/RegionSelectModal';
+import { useSearchParams } from 'react-router-dom';
+import useLocationDetailDisasterMessages from '../../hooks/locationDetail/useLocationDetail';
 
 const Container = styled(Box)(({ theme }) => ({
   padding: '16px',
@@ -15,12 +20,29 @@ const Header = styled(Box)(({ theme }) => ({
   gap: '8px',
   marginBottom: '16px',
   color: theme.palette.text.primary,
+  cursor: 'pointer',
 }));
 
 const Tabs = styled(Box)({
   display: 'flex',
   gap: '8px',
   marginBottom: '24px',
+  overflowX: 'auto',
+  whiteSpace: 'nowrap',
+  '&::-webkit-scrollbar': {
+    height: '4px',
+  },
+  '&::-webkit-scrollbar-track': {
+    background: '#f1f1f1',
+    borderRadius: '2px',
+  },
+  '&::-webkit-scrollbar-thumb': {
+    background: '#c1c1c1',
+    borderRadius: '2px',
+  },
+  '&::-webkit-scrollbar-thumb:hover': {
+    background: '#a8a8a8',
+  },
 });
 
 const TabButton = styled(Button)<{ selected?: boolean }>(
@@ -29,67 +51,101 @@ const TabButton = styled(Button)<{ selected?: boolean }>(
     color: 'black',
     border: `1px solid ${selected ? theme.palette.primary.main : theme.palette.grey[300]}`,
     padding: '6px 20px',
+    flexShrink: 0,
     '&:hover': {
       border: `1px solid ${theme.palette.primary.main}`,
     },
   })
 );
 
-const AlertCard = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.background.default,
-  border: `1px solid ${theme.palette.grey[300]}`,
-  borderRadius: '12px',
-  padding: '16px',
-  marginBottom: '16px',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '8px',
-}));
-
-const AlertHeader = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '8px',
-  color: theme.palette.text.primary,
-  fontWeight: 600,
-}));
-
 const LocationDetail = () => {
   const theme = useTheme();
-  const alerts = Array(6).fill({
-    region: '창녕군',
-    time: '2025/06/25 20:33:50',
-    message:
-      '오늘 19:18 창녕군 영산휴게소(하행선)에서 발생한 화학사고의 대응이 완료되었습니다. 휴게소 이용객 및 인근 주민은 일상생활로 돌아가시기 바랍니다.',
-  });
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const selectedRegion = searchParams.get('region') || '전체';
+  const selectedCategory = searchParams.get('category');
+  const { data: safetyDisasterMessages, isPending } =
+    useLocationDetailDisasterMessages({
+      rgnNm: selectedRegion === '전체' ? '' : selectedRegion,
+    });
+
+  const handleSelectRegion = (newRegion: string) => {
+    if (newRegion === '전체') {
+      searchParams.delete('region');
+      setSearchParams(searchParams);
+    } else {
+      searchParams.set('region', newRegion);
+      setSearchParams(searchParams);
+    }
+  };
+
+  const handleSelectCategory = (newCategory: string) => {
+    if (selectedCategory === newCategory) {
+      searchParams.delete('category');
+      setSearchParams(searchParams);
+    } else {
+      searchParams.set('category', newCategory);
+      setSearchParams(searchParams);
+    }
+  };
+
+  if (isPending) return <div>Pending...</div>;
 
   return (
     <Container>
-      <Header>
+      <Header onClick={() => setModalOpen(true)}>
         <RoomIcon />
-        <Typography variant='h1'>경상북도</Typography>
+        <Typography variant='h1'>{selectedRegion}</Typography>
       </Header>
 
       <Tabs>
-        <TabButton>카테고리</TabButton>
-        <TabButton selected>선택됨</TabButton>
-        <TabButton>카테고리</TabButton>
+        {CATEGORY_LIST.map((category) => (
+          <TabButton
+            key={category}
+            selected={selectedCategory === category}
+            onClick={() => handleSelectCategory(category)}
+          >
+            {category}
+          </TabButton>
+        ))}
       </Tabs>
 
       <Box display='grid' gridTemplateColumns='repeat(2, 1fr)' gap='16px'>
-        {alerts.map((alert, index) => (
-          <AlertCard key={index}>
-            <AlertHeader>
-              <WarningIcon />
-              <Typography variant='subtitle1'>[{alert.region}]</Typography>
-            </AlertHeader>
-            <Typography variant='body1'>{alert.message}</Typography>
-            <Typography variant='subtitle1'>발송일시: {alert.time}</Typography>
-          </AlertCard>
+        {safetyDisasterMessages?.body.map((message) => (
+          <SafetyDisastermessageCard
+            key={message.SN}
+            safetyDisasterMessage={message}
+          />
         ))}
       </Box>
+
+      <RegionSelectModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        regions={REGIONS}
+        onSelectRegion={handleSelectRegion}
+        onSelectNearby={() => handleSelectRegion('내 주변')}
+        selectedRegion={selectedRegion}
+      />
     </Container>
   );
 };
 
 export default LocationDetail;
+
+/**
+   *   {
+            "MSG_CN": "[김해시] 김해시 호우주의보 발효중으로 특히 서부지역(진례 등) 많은 비가 내렸으니 지하차도 통행 자제, 농배수로 물꼬작업 등 위험지역 접근 삼가해주시기바랍니다.",
+            "RCPTN_RGN_NM": "경상남도 김해시 ",
+            "CRT_DT": "2023/09/16 11:41:41",
+            "REG_YMD": "2023-09-16",
+            "EMRG_STEP_NM": "안전안내",
+            "SN": 205172,
+            "DST_SE_NM": "호우",
+            "MDFCN_YMD": "2023-09-16"
+        }
+   * 
+   * 
+   */
