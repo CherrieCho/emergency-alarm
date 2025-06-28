@@ -1,4 +1,4 @@
-import { Box, styled, Typography, useTheme } from '@mui/material';
+import { Box, Grid, styled, Typography, useTheme } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBolt } from '@fortawesome/free-solid-svg-icons';
 
@@ -39,18 +39,17 @@ const DisasterTypeInfo = () => {
   return (
     <Box flex={2} padding='40px'>
       <Typography
-        mb={2}
+        variant='h1'
         sx={{
-          fontFamily: theme.typography.fontFamily,
-          fontWeight: 'bold',
-          fontSize: '1.3rem',
+          marginBottom: '2em',
         }}
       >
         재난별 정보조회
       </Typography>
-      <DisasterTypeBox>
+      <Grid container spacing={2}>
         {/* {ㅡㅡ} */}
-        <Box
+        <Grid
+          size={{ xs: 6, sm: 5, md: 4, lg: 3 }}
           sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -70,9 +69,10 @@ const DisasterTypeInfo = () => {
           >
             낙뢰
           </Typography>
-        </Box>
+        </Grid>
         {/* {ㅡㅡ} */}
-        <Box
+        <Grid
+          size={{ xs: 6, sm: 5, md: 4, lg: 3 }}
           sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -92,9 +92,10 @@ const DisasterTypeInfo = () => {
           >
             낙뢰
           </Typography>
-        </Box>
+        </Grid>
         {/* {ㅡㅡ} */}
-        <Box
+        <Grid
+          size={{ xs: 6, sm: 5, md: 4, lg: 3 }}
           sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -114,10 +115,10 @@ const DisasterTypeInfo = () => {
           >
             낙뢰
           </Typography>
-        </Box>
+        </Grid>
         {/* {ㅡㅡ} */}
-        {/* {ㅡㅡ} */}
-        <Box
+        <Grid
+          size={{ xs: 6, sm: 5, md: 4, lg: 3 }}
           sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -137,10 +138,11 @@ const DisasterTypeInfo = () => {
           >
             낙뢰
           </Typography>
-        </Box>
+        </Grid>
         {/* {ㅡㅡ} */}
         {/* {ㅡㅡ} */}
-        <Box
+        <Grid
+          size={{ xs: 6, sm: 5, md: 4, lg: 3 }}
           sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -160,10 +162,11 @@ const DisasterTypeInfo = () => {
           >
             낙뢰
           </Typography>
-        </Box>
+        </Grid>
         {/* {ㅡㅡ} */}
         {/* {ㅡㅡ} */}
-        <Box
+        <Grid
+          size={{ xs: 6, sm: 5, md: 4, lg: 3 }}
           sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -183,10 +186,11 @@ const DisasterTypeInfo = () => {
           >
             낙뢰
           </Typography>
-        </Box>
+        </Grid>
         {/* {ㅡㅡ} */}
         {/* {ㅡㅡ} */}
-        <Box
+        <Grid
+          size={{ xs: 6, sm: 5, md: 4, lg: 3 }}
           sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -206,10 +210,11 @@ const DisasterTypeInfo = () => {
           >
             낙뢰
           </Typography>
-        </Box>
+        </Grid>
         {/* {ㅡㅡ} */}
         {/* {ㅡㅡ} */}
-        <Box
+        <Grid
+          size={{ xs: 6, sm: 5, md: 4, lg: 3 }}
           sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -229,55 +234,10 @@ const DisasterTypeInfo = () => {
           >
             낙뢰
           </Typography>
-        </Box>
+        </Grid>
         {/* {ㅡㅡ} */}
         {/* {ㅡㅡ} */}
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <IconCircle>
-            <FontAwesomeIcon icon={faBolt} size='lg' />
-          </IconCircle>
-          <Typography
-            variant='body1'
-            sx={{
-              marginTop: '8px',
-              fontFamily: theme.typography.fontFamily,
-              fontSize: '0.9rem',
-            }}
-          >
-            낙뢰
-          </Typography>
-        </Box>
-        {/* {ㅡㅡ} */}
-        {/* {ㅡㅡ} */}
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <IconCircle>
-            <FontAwesomeIcon icon={faBolt} size='lg' />
-          </IconCircle>
-          <Typography
-            variant='body1'
-            sx={{
-              marginTop: '8px',
-              fontFamily: theme.typography.fontFamily,
-              fontSize: '0.9rem',
-            }}
-          >
-            낙뢰
-          </Typography>
-        </Box>
-        {/* {ㅡㅡ} */}
-      </DisasterTypeBox>
+      </Grid>
     </Box>
   );
 };
