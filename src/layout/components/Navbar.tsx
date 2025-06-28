@@ -214,9 +214,15 @@ const Navbar = () => {
                 },
               }}
             >
-              재난 행동요령
+              <Typography variant='h2' sx={{ fontSize: '14px' }}>
+                재난 행동요령
+              </Typography>
             </Button>
-            <AuthButton onClick={goToLogin}>로그인 / 회원가입</AuthButton>
+            <AuthButton onClick={goToLogin}>
+              <Typography variant='h2' sx={{ fontSize: '14px' }}>
+                로그인 / 회원가입
+              </Typography>
+            </AuthButton>
           </AuthBox>
         </Toolbar>
       </AppBar>
