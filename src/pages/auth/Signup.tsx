@@ -64,11 +64,11 @@ const Signup = () => {
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/users`, {
         email,
         name: nickname,
+        password,
       });
 
       console.log('회원가입 성공:', response.data);
       alert('회원가입 성공!');
-      // 성공 후 이동하거나 초기화 가능
     } catch (error) {
       console.error('회원가입 실패:', error);
       alert('회원가입 실패! 서버 확인해주세요.');

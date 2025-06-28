@@ -21,7 +21,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import { useNavigate } from 'react-router-dom';
 
-const drawerWidth = '100vw'; // drawer를 화면 전체 너비로
+const drawerWidth = '100vw';
 
 const AuthButton = styled(Button)({
   borderRadius: '12px',
@@ -66,7 +66,8 @@ const Navbar = () => {
   const [open, setOpen] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  //모바일 슬라이드 메뉴 오픈
+  const isLoggedIn = !!localStorage.getItem('token'); // ✅ 로그인 상태 확인
+
   const toggleDrawer = (state: boolean) => () => {
     setOpen(state);
   };
@@ -86,7 +87,12 @@ const Navbar = () => {
     setOpen(false);
   };
 
-  //drawer 내용
+  const handleLogout = () => { // ✅ 로그아웃 함수
+    localStorage.removeItem('token');
+    navigate('/login');
+    setOpen(false);
+  };
+
   const drawerList = (
     <Box
       sx={{
@@ -114,37 +120,39 @@ const Navbar = () => {
           padding: '1em 1.5em',
         }}
       >
-        <AuthButtonMobile onClick={goToLogin}>
-          <Typography variant='h2' sx={{ fontSize: '18px' }}>
-            로그인 / 회원가입
-          </Typography>
-        </AuthButtonMobile>
+        {/* ✅ 모바일에서 로그인/로그아웃 토글 */}
+        {isLoggedIn ? (
+          <AuthButtonMobile onClick={handleLogout}>
+            <Typography variant='h2' sx={{ fontSize: '18px' }}>
+              로그아웃
+            </Typography>
+          </AuthButtonMobile>
+        ) : (
+          <AuthButtonMobile onClick={goToLogin}>
+            <Typography variant='h2' sx={{ fontSize: '18px' }}>
+              로그인 / 회원가입
+            </Typography>
+          </AuthButtonMobile>
+        )}
       </Box>
-      {/* 메뉴 리스트 */}
+
       <List sx={{ paddingTop: '1.5em' }}>
         <ListItem sx={{ padding: '10px 0' }}>
           <ListItemButton onClick={goToMain}>
             <ListItemIcon sx={{ color: '#333333' }}>
               <HomeIcon />
             </ListItemIcon>
-            <Typography
-              variant='body1'
-              sx={{ fontWeight: 'bold', color: '#333333' }}
-            >
+            <Typography variant='body1' sx={{ fontWeight: 'bold', color: '#333333' }}>
               홈으로
             </Typography>
           </ListItemButton>
         </ListItem>
-
         <ListItem sx={{ padding: '10px 0' }}>
           <ListItemButton onClick={goToGuide}>
             <ListItemIcon sx={{ color: '#333333' }}>
               <DirectionsRunIcon />
             </ListItemIcon>
-            <Typography
-              variant='body1'
-              sx={{ fontWeight: 'bold', color: '#333333' }}
-            >
+            <Typography variant='body1' sx={{ fontWeight: 'bold', color: '#333333' }}>
               재난 행동요령
             </Typography>
           </ListItemButton>
@@ -200,6 +208,8 @@ const Navbar = () => {
               <MenuIcon />
             </IconButton>
           </MobileMenuBox>
+
+          {/* ✅ PC에서 로그인/로그아웃 토글 */}
           <AuthBox>
             <Button
               disableRipple
@@ -216,23 +226,24 @@ const Navbar = () => {
                 재난 행동요령
               </Typography>
             </Button>
-            <AuthButton onClick={goToLogin}>
-              <Typography variant='h2' sx={{ fontSize: '14px' }}>
-                로그인 / 회원가입
-              </Typography>
-            </AuthButton>
+            {isLoggedIn ? (
+              <AuthButton onClick={handleLogout}>
+                <Typography variant='h2' sx={{ fontSize: '14px' }}>
+                  로그아웃
+                </Typography>
+              </AuthButton>
+            ) : (
+              <AuthButton onClick={goToLogin}>
+                <Typography variant='h2' sx={{ fontSize: '14px' }}>
+                  로그인 / 회원가입
+                </Typography>
+              </AuthButton>
+            )}
           </AuthBox>
         </Toolbar>
       </AppBar>
 
-      <Drawer
-        anchor='right'
-        open={open}
-        onClose={toggleDrawer(false)}
-        sx={{
-          width: drawerWidth,
-        }}
-      >
+      <Drawer anchor='right' open={open} onClose={toggleDrawer(false)} sx={{ width: drawerWidth }}>
         {drawerList}
       </Drawer>
     </Box>

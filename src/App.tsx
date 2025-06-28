@@ -7,6 +7,8 @@ import AppLayout from './layout/AppLayout';
 import Guidelines from './pages/guidelines/Guidelines';
 import MainPage from './pages/mainPage/MainPage';
 import GuidelineDetail from './pages/guidelines/GuidelineDetail';
+import RequireAuth from './components/RequireAuth';
+import MyPage from './pages/myPage/MyPage';
 
 function App() {
   return (
@@ -17,8 +19,18 @@ function App() {
         <Route path='/signup' element={<Signup />} />
         <Route path='/location-detail' element={<LocationDetail />} />
         <Route path='/guideline' element={<Guidelines />}>
-          <Route path=':id' element={<GuidelineDetail />}></Route>
+          <Route path=':id' element={<GuidelineDetail />} />
         </Route>
+
+        {/* ✅ 로그인한 사용자만 접근 가능한 마이페이지 */}
+        <Route
+          path='/mypage'
+          element={
+            <RequireAuth>
+              <MyPage />
+            </RequireAuth>
+          }
+        />
       </Route>
     </Routes>
   );
