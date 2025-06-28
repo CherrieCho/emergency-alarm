@@ -10,11 +10,14 @@ const StyledStack = styled(Stack)(({ theme }) => ({
   maxWidth: '1200px',
   margin: '0px auto',
   padding: '50px',
+  paddingTop: 0,
   [theme.breakpoints.down('md')]: {
     padding: '10px',
+    paddingTop: 0,
   },
   [theme.breakpoints.down('sm')]: {
     padding: '2px',
+    paddingTop: 0,
   },
 }));
 

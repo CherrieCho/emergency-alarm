@@ -1,10 +1,19 @@
-import Slider from 'react-slick';
-import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
+import {
+  Box,
+  Typography,
+  useMediaQuery,
+  useTheme,
+  IconButton,
+} from '@mui/material';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import { useState } from 'react';
+import type { Swiper as SwiperClass } from 'swiper';
 
 const disasterData = [
   {
@@ -39,100 +48,90 @@ const disasterData = [
   },
 ];
 
-const NextArrow = (props: any) => {
-  const { onClick } = props;
-  return (
-    <ArrowForwardIosIcon
-      onClick={onClick}
-      sx={{
-        position: 'absolute',
-        right: -25,
-        top: '50%',
-        transform: 'translateY(-50%)',
-        cursor: 'pointer',
-        color: '#000',
-        zIndex: 1,
-      }}
-    />
-  );
-};
-
-const PrevArrow = (props: any) => {
-  const { onClick } = props;
-  return (
-    <ArrowBackIosIcon
-      onClick={onClick}
-      sx={{
-        position: 'absolute',
-        left: -25,
-        top: '50%',
-        transform: 'translateY(-50%)',
-        cursor: 'pointer',
-        color: '#000',
-        zIndex: 1,
-      }}
-    />
-  );
-};
-/*
-  [theme.breakpoints.down('sm')]: {
-    gridTemplateColumns: 'repeat(2, 1fr)',
-  },
-*/
 const DisasterCarousel = () => {
   const theme = useTheme();
-  const isLgDown = useMediaQuery(theme.breakpoints.down('lg'));
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 600,
-    slidesToShow: isLgDown ? 1 : 2,
-    slidesToScroll: isLgDown ? 1 : 2,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
-  };
+  const isSmDown = useMediaQuery(theme.breakpoints.down('sm'));
+  const [swiper, setSwiper] = useState<SwiperClass>();
+  const [isBeginning, setIsBeginning] = useState(true);
+  const [isEnd, setIsEnd] = useState(false);
+
+  const handlePrev = () => swiper?.slidePrev();
+  const handleNext = () => swiper?.slideNext();
 
   return (
     <Box flex={1} padding='40px'>
-      <Typography
-        variant='h1'
-        sx={{
-          marginBottom: '2em',
-        }}
-        mb={2}
-      >
+      <Typography variant='h1' mb='2em'>
         재난안전 상황정보
       </Typography>
-      <Box maxWidth='1000px' margin='0 auto'>
-        <Slider {...settings}>
+      <Box maxWidth='1000px' margin='0 auto' position='relative'>
+        {/* Navigation Buttons */}
+        <IconButton
+          onClick={handlePrev}
+          disabled={isBeginning}
+          sx={{
+            position: 'absolute',
+            left: -50,
+            top: '50%',
+            transform: 'translateY(-50%)',
+            zIndex: 2,
+            color: '#333333',
+            [theme.breakpoints.down('sm')]: {
+              left: -40,
+            },
+          }}
+        >
+          <ArrowBackIosIcon />
+        </IconButton>
+        <IconButton
+          onClick={handleNext}
+          disabled={isEnd}
+          sx={{
+            position: 'absolute',
+            right: -50,
+            top: '50%',
+            transform: 'translateY(-50%)',
+            zIndex: 2,
+            color: '#333333',
+            [theme.breakpoints.down('sm')]: {
+              right: -40,
+            },
+          }}
+        >
+          <ArrowForwardIosIcon />
+        </IconButton>
+
+        {/* Swiper */}
+        <Swiper
+          modules={[Navigation]}
+          spaceBetween={20}
+          slidesPerView={isSmDown ? 1 : 2}
+          onSwiper={(s) => setSwiper(s)}
+          onSlideChange={(s) => {
+            setIsBeginning(s.isBeginning);
+            setIsEnd(s.isEnd);
+          }}
+        >
           {disasterData.map((item, idx) => (
-            <Box
-              key={idx}
-              sx={{
-                padding: '0 10px',
-                boxSizing: 'border-box',
-              }}
-            >
+            <SwiperSlide key={idx}>
               <Box
-                key={idx}
                 sx={{
-                  marginRight: '20px',
                   border: '1px solid rgba(0,0,0,0.1)',
                   borderRadius: '15px',
                   padding: '20px',
                   backgroundColor: '#fff',
+                  height: '100%',
                 }}
               >
-                <Box display='flex' alignItems='center' gap={1}>
+                <Box display='flex' alignItems='center' gap={1} mb={1}>
                   <WarningAmberIcon fontSize='large' />
                   <Typography fontWeight='bold'>[{item.region}]</Typography>
                 </Box>
                 <Typography>{item.message}</Typography>
                 <Typography variant='caption'>발송일시: {item.time}</Typography>
               </Box>
-            </Box>
+            </SwiperSlide>
           ))}
-        </Slider>
+        </Swiper>
       </Box>
     </Box>
   );
