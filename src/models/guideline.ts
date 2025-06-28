@@ -4,3 +4,9 @@ export interface getSafetyDataRequest {
   returnType?: string;
   safety_cate?: string;
 }
+
+export type DisasterItem = {
+  name: string;
+  cateId?: string;
+  pageNo?: number;
+};

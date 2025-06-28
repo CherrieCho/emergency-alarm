@@ -56,6 +56,9 @@ const MobileMenuBox = styled(Box)(({ theme }) => ({
 }));
 
 const AuthBox = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '1.5em',
   [theme.breakpoints.down('sm')]: {
     display: 'none',
   },
@@ -200,6 +203,19 @@ const Navbar = () => {
             </IconButton>
           </MobileMenuBox>
           <AuthBox>
+            <Button
+              disableRipple
+              onClick={goToGuide}
+              sx={{
+                color: '#333333',
+                '&:hover': {
+                  backgroundColor: 'transparent',
+                  boxShadow: 'none',
+                },
+              }}
+            >
+              재난 행동요령
+            </Button>
             <AuthButton onClick={goToLogin}>로그인 / 회원가입</AuthButton>
           </AuthBox>
         </Toolbar>
