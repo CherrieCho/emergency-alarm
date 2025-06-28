@@ -84,7 +84,7 @@ const RegionSelectModal: React.FC<RegionSelectModalProps> = ({
   onClose,
   regions,
   onSelectRegion,
-  onSelectNearby,
+  // onSelectNearby,
   selectedRegion,
 }) => {
   return (

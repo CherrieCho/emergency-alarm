@@ -2,7 +2,6 @@ import { Router, type Request, type Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { asyncHandler } from '../utiles/asyncHandler';
 import bcrypt from 'bcrypt';
-
 const router = Router();
 const prisma = new PrismaClient();
 
@@ -14,6 +13,7 @@ router.get(
       select: { id: true, name: true, email: true }, // 비밀번호 제외
     });
     res.json(users);
+    console.log(req);
   })
 );
 
