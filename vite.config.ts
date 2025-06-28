@@ -13,12 +13,6 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/safety-api/, ''),
         secure: false,
       },
-      '/weather-api': {
-        target: 'https://apis.data.go.kr',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/weather-api/, ''),
-        secure: false,
-      },
     },
   },
 });
