@@ -29,6 +29,7 @@ const ModalBox = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
+  outline: 'none',
 }));
 
 const Title = styled(Typography)({
@@ -43,6 +44,9 @@ const CloseButton = styled(IconButton)({
   position: 'absolute',
   top: 16,
   right: 16,
+  '&:focus': {
+    outline: 'none',
+  },
 });
 
 const RegionGrid = styled(Box)({
@@ -59,7 +63,6 @@ const RegionButton = styled(Button)<{ selected?: boolean }>(
     fontWeight: 600,
     fontSize: '15px',
     color: '#222',
-    background: '#fff',
     padding: '10px 0',
     boxShadow: 'none',
     width: '100%',
@@ -68,40 +71,13 @@ const RegionButton = styled(Button)<{ selected?: boolean }>(
       ? `1px solid ${theme.palette.primary.main}`
       : `1.5px solid ${theme.palette.grey[300]}`,
     '&:hover': {
-      // background: theme.palette.action.hover,
       border: `1px solid ${theme.palette.primary.main}`,
+    },
+    '&:focus': {
+      outline: 'none',
     },
   })
 );
-
-const BottomBox = styled(Box)({
-  display: 'flex',
-  gap: '12px',
-  width: '100%',
-  marginTop: '16px',
-});
-
-const NearbyButton = styled(Button)({
-  flex: 1,
-  borderRadius: '8px',
-  fontWeight: 700,
-  fontSize: '18px',
-  background: '#f5f5f5',
-  color: '#222',
-  height: '48px',
-  boxShadow: 'none',
-});
-
-const DisabledButton = styled(Button)({
-  flex: 2,
-  borderRadius: '8px',
-  fontWeight: 500,
-  fontSize: '18px',
-  background: '#f5f5f5',
-  color: '#d3d3d3',
-  height: '48px',
-  boxShadow: 'none',
-});
 
 const RegionSelectModal: React.FC<RegionSelectModalProps> = ({
   open,
@@ -141,10 +117,10 @@ const RegionSelectModal: React.FC<RegionSelectModalProps> = ({
             </RegionButton>
           ))}
         </RegionGrid>
-        <BottomBox>
+        {/* <BottomBox>
           <NearbyButton onClick={onSelectNearby}>내 주변</NearbyButton>
           <DisabledButton disabled>지역을 선택해주세요</DisabledButton>
-        </BottomBox>
+        </BottomBox> */}
       </ModalBox>
     </Modal>
   );
