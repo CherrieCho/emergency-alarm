@@ -95,10 +95,9 @@ const DisasterCarousel = () => {
   return (
     <Box flex={1} padding='40px'>
       <Typography
+        variant='h1'
         sx={{
-          fontFamily: theme.typography.fontFamily,
-          fontWeight: 'bold',
-          fontSize: '1.3rem',
+          marginBottom: '2em',
         }}
         mb={2}
       >

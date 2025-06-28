@@ -84,11 +84,9 @@ const RegionDisasterInfo = () => {
   return (
     <Box flex={2} padding='40px'>
       <Typography
-        mb={2}
+        variant='h1'
         sx={{
-          fontFamily: theme.typography.fontFamily,
-          fontWeight: 'bold',
-          fontSize: '1.3rem',
+          marginBottom: '2em',
         }}
       >
         지역별 정보조회
