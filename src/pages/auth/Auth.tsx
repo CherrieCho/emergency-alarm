@@ -7,7 +7,10 @@ import {
   Button,
   Box,
   styled,
+  // Snackbar,
+  // Alert,
 } from '@mui/material';
+import { login } from '../../apis/auth';
 
 const Wrapper = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -52,9 +55,17 @@ const Auth = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('로그인 시도:', { email, password });
+
+    try {
+      const data = await login(email, password);
+      localStorage.setItem('token', data.token); // ✅ data는 { token, user } 객체여야 함
+      console.log('로그인 성공:', data.user);
+      navigate('/'); // 또는 이동할 페이지
+    } catch (err) {
+      console.error('로그인 실패:', err);
+    }
   };
 
   return (
@@ -63,44 +74,53 @@ const Auth = () => {
         <Title>재난알림 로그인</Title>
         <Subtitle>이메일과 비밀번호를 입력해주세요.</Subtitle>
 
-        <Box component="form" onSubmit={handleLogin}>
+        <Box component='form' onSubmit={handleLogin}>
           <TextField
             fullWidth
-            label="이메일"
-            type="email"
-            margin="normal"
+            label='이메일'
+            type='email'
+            margin='normal'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
           <TextField
             fullWidth
-            label="비밀번호"
-            type="password"
-            margin="normal"
+            label='비밀번호'
+            type='password'
+            margin='normal'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
           <Button
-            type="submit"
+            type='submit'
             fullWidth
-            variant="contained"
-            color="primary"
-            size="large"
+            variant='contained'
+            color='primary'
+            size='large'
             sx={{ mt: 3 }}
           >
             로그인
           </Button>
 
-          <Typography variant="body1" textAlign="center" sx={{ mt: 2 }}>
+          <Typography variant='body1' textAlign='center' sx={{ mt: 2 }}>
             아직 계정이 없으신가요?
           </Typography>
-          <SignupText onClick={() => navigate('/signup')}>
-            회원가입
-          </SignupText>
+          <SignupText onClick={() => navigate('/signup')}>회원가입</SignupText>
         </Box>
       </LoginCard>
+
+      {/* <Snackbar
+        open={open}
+        autoHideDuration={3000}
+        onClose={() => setOpen(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      >
+        <Alert onClose={() => setOpen(false)} severity="warning" sx={{ width: '100%' }}>
+          {alertMessage}
+        </Alert>
+      </Snackbar> */}
     </Wrapper>
   );
 };

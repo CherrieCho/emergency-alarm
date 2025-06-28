@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import GuidelineDetail from './GuidelineDetail';
+import GuidelineDetail from './components/GuidelineDetail';
 import {
   Box,
   FormControl,
@@ -10,6 +9,7 @@ import {
 } from '@mui/material';
 import type { DisasterItem } from '../../models/guideline';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 //재해 목록
 const naturalDisasters: DisasterItem[] = [
