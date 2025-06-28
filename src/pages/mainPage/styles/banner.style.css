@@ -1,3 +1,7 @@
+@import 'swiper/css';
+@import 'swiper/css/pagination';
+@import 'swiper/css/navigation';
+
 .swiper-slide {
   display: flex;
   justify-content: center;
