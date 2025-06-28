@@ -1,33 +1,33 @@
-import React from 'react';
-import { Box, Typography, Paper, CircularProgress } from '@mui/material';
-import useSafetyDisasterMessages from '../../hooks/useDisasterMessages';
+import { Box, Stack, styled } from '@mui/material';
+import MainBanner from './components/MainBanner';
+import DisasterSlide from './components/DisasterSlide';
+import RegionDisasterInfo from './components/RegionDisasterInfo';
+import DisasterTypeInfo from './components/DisasterTypeInfo';
+
+const StyledStack = styled(Stack)(({ theme }) => ({
+  width: '100%',
+  height: '100vh',
+  maxWidth: '1200px',
+  margin: '0px auto',
+  padding: '50px',
+  [theme.breakpoints.down('md')]: {
+    padding: '10px',
+  },
+  [theme.breakpoints.down('sm')]: {
+    padding: '2px',
+  },
+}));
 
 const MainPage = () => {
-  const { data, isLoading, error } = useSafetyDisasterMessages();
-
-  if (isLoading) return <CircularProgress />;
-  if (error) return <Typography color="error">에러 발생</Typography>;
-
   return (
-    <Box p={4}>
-      <Typography variant="h1" gutterBottom>
-        긴급 재난 문자
-      </Typography>
-
-      {data?.body?.map((item: any, index: number) => (
-        <Paper key={item.SN ?? index} sx={{ mb: 2, p: 2 }}>
-          <Typography variant="h2" gutterBottom>
-            {item.RCPTN_RGN_NM} {/* 지역명 */}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            {item.MSG_CN} {/* 메시지 본문 */}
-          </Typography>
-          <Typography variant="subtitle1" color="text.secondary">
-            {item.CRT_DT} {/* 수신일시 */}
-          </Typography>
-        </Paper>
-      ))}
-    </Box>
+    <>
+      <StyledStack spacing={2}>
+        <MainBanner />
+        <DisasterSlide />
+        <RegionDisasterInfo />
+        <DisasterTypeInfo />
+      </StyledStack>
+    </>
   );
 };
 
