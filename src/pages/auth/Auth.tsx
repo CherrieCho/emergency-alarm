@@ -113,7 +113,7 @@ const Auth = () => {
         </Box>
       </LoginCard>
 
-      <Snackbar
+      {/* <Snackbar
         open={open}
         autoHideDuration={3000}
         onClose={() => setOpen(false)}
@@ -122,7 +122,7 @@ const Auth = () => {
         <Alert onClose={() => setOpen(false)} severity="warning" sx={{ width: '100%' }}>
           {alertMessage}
         </Alert>
-      </Snackbar>
+      </Snackbar> */}
     </Wrapper>
   );
 };
