@@ -1,49 +1,34 @@
-import { Box, Typography, Button, styled, useTheme } from '@mui/material';
+import { Box, Typography, Button, styled } from '@mui/material';
 import RoomIcon from '@mui/icons-material/Room';
 import { CATEGORY_LIST, REGIONS } from './constants';
 import SafetyDisastermessageCard from './components/SafetyDisastermessageCard';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import RegionSelectModal from './components/RegionSelectModal';
 import { useSearchParams } from 'react-router-dom';
 import useLocationDetailDisasterMessages from '../../hooks/locationDetail/useLocationDetail';
+import { useInView } from 'react-intersection-observer';
+import SkeletonCards from './components/SkeletonCards';
+import Flicking from '@egjs/react-flicking';
+import type { DisasterCategory } from '../../models';
+import BookMarkButton from './components/BookMarkButton';
 
 const Container = styled(Box)(({ theme }) => ({
-  padding: '16px',
+  padding: '32px 16px',
   maxWidth: '800px',
   margin: '0 auto',
   backgroundColor: theme.palette.background.default,
+  // backgroundColor: 'yellowGreen',
+  overflow: 'hidden',
 }));
 
 const Header = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  gap: '8px',
+  gap: '4px',
   marginBottom: '16px',
   color: theme.palette.text.primary,
   cursor: 'pointer',
 }));
-
-const Tabs = styled(Box)({
-  display: 'flex',
-  gap: '8px',
-  marginBottom: '24px',
-  overflowX: 'auto',
-  whiteSpace: 'nowrap',
-  '&::-webkit-scrollbar': {
-    height: '4px',
-  },
-  '&::-webkit-scrollbar-track': {
-    background: '#f1f1f1',
-    borderRadius: '2px',
-  },
-  '&::-webkit-scrollbar-thumb': {
-    background: '#c1c1c1',
-    borderRadius: '2px',
-  },
-  '&::-webkit-scrollbar-thumb:hover': {
-    background: '#a8a8a8',
-  },
-});
 
 const TabButton = styled(Button)<{ selected?: boolean }>(
   ({ selected, theme }) => ({
@@ -51,6 +36,7 @@ const TabButton = styled(Button)<{ selected?: boolean }>(
     color: 'black',
     border: `1px solid ${selected ? theme.palette.primary.main : theme.palette.grey[300]}`,
     padding: '6px 20px',
+    marginRight: '8px',
     flexShrink: 0,
     '&:hover': {
       border: `1px solid ${theme.palette.primary.main}`,
@@ -58,18 +44,49 @@ const TabButton = styled(Button)<{ selected?: boolean }>(
   })
 );
 
+const FlickingContainer = styled(Box)({
+  marginBottom: '24px',
+
+  '.flicking-viewport': {
+    overflow: 'visible',
+  },
+  '.flicking-camera': {
+    display: 'flex',
+  },
+});
+
 const LocationDetail = () => {
-  const theme = useTheme();
+  // const theme = useTheme();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [modalOpen, setModalOpen] = useState(false);
+  const [isBookMarked, setIsBookMarked] = useState(false);
 
+  const [ref, inView] = useInView();
   const selectedRegion = searchParams.get('region') || '전체';
-  const selectedCategory = searchParams.get('category');
-  const { data: safetyDisasterMessages, isPending } =
-    useLocationDetailDisasterMessages({
-      rgnNm: selectedRegion === '전체' ? '' : selectedRegion,
-    });
+  const selectedCategory = searchParams.get('category') || '';
+
+  // 선택된 카테고리의 인덱스 계산
+  const selectedCategoryIndex = selectedCategory
+    ? CATEGORY_LIST.findIndex((category) => category === selectedCategory)
+    : 0;
+
+  const {
+    data: safetyDisasterMessages,
+    isPending,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useLocationDetailDisasterMessages({
+    rgnNm: selectedRegion === '전체' ? '' : selectedRegion,
+    category: selectedCategory as DisasterCategory,
+  });
+
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   const handleSelectRegion = (newRegion: string) => {
     if (newRegion === '전체') {
@@ -91,35 +108,65 @@ const LocationDetail = () => {
     }
   };
 
-  if (isPending) return <div>Pending...</div>;
-
   return (
     <Container>
-      <Header onClick={() => setModalOpen(true)}>
-        <RoomIcon />
-        <Typography variant='h1'>{selectedRegion}</Typography>
+      <Header>
+        <div
+          onClick={() => setModalOpen(true)}
+          style={{ display: 'flex', alignItems: 'center', gap: '4px' }}
+        >
+          <RoomIcon />
+          <Typography variant='h1'>{selectedRegion}</Typography>
+        </div>
+        <BookMarkButton
+          isBookMarked={isBookMarked}
+          onClick={() => setIsBookMarked(!isBookMarked)}
+        />
       </Header>
 
-      <Tabs>
-        {CATEGORY_LIST.map((category) => (
-          <TabButton
-            key={category}
-            selected={selectedCategory === category}
-            onClick={() => handleSelectCategory(category)}
-          >
-            {category}
-          </TabButton>
-        ))}
-      </Tabs>
+      <FlickingContainer>
+        <Flicking
+          bound={true}
+          inputType={['touch', 'mouse']}
+          moveType={'freeScroll'}
+          defaultIndex={selectedCategoryIndex}
+          // bounce={10}
+        >
+          {CATEGORY_LIST.map((category) => (
+            <TabButton
+              key={category}
+              selected={selectedCategory === category}
+              onClick={() => handleSelectCategory(category)}
+            >
+              {category}
+            </TabButton>
+          ))}
+        </Flicking>
+      </FlickingContainer>
 
-      <Box display='grid' gridTemplateColumns='repeat(2, 1fr)' gap='16px'>
-        {safetyDisasterMessages?.body.map((message) => (
-          <SafetyDisastermessageCard
-            key={message.SN}
-            safetyDisasterMessage={message}
-          />
-        ))}
-      </Box>
+      {isPending && <SkeletonCards count={10} />}
+      {!isPending && (
+        <Box
+          display='grid'
+          gridTemplateColumns={{
+            xs: '1fr', // 모바일: 1열
+            sm: 'repeat(2, 1fr)', // 태블릿 이상: 2열
+          }}
+          gap='16px'
+        >
+          {safetyDisasterMessages?.pages
+            ?.flatMap((page) => page.body || [])
+            .map((message) => (
+              <SafetyDisastermessageCard
+                key={message.SN}
+                safetyDisasterMessage={message}
+              />
+            ))}
+        </Box>
+      )}
+
+      {/* 무한스크롤 트리거 */}
+      <Box ref={ref}>{isFetchingNextPage && <SkeletonCards count={2} />}</Box>
 
       <RegionSelectModal
         open={modalOpen}

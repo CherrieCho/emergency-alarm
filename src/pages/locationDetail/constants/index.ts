@@ -1,4 +1,6 @@
-export const CATEGORY_LIST = [
+import type { DisasterCategory } from '../../../models';
+
+export const CATEGORY_LIST: DisasterCategory[] = [
   '산사태',
   '조수',
   '지진',

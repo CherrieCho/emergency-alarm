@@ -33,3 +33,15 @@ export interface SafetyDisasterMessagesRequest {
   crtDt?: string; //조회 시작 일자 (YYYYMMDD)
   rgnNm: string; // 지역 명(시도명, 시군구명)
 }
+
+export type DisasterCategory =
+  | '산사태'
+  | '조수'
+  | '지진'
+  | '폭염'
+  | '풍수해(태풍,호우,대설)'
+  | '감염병'
+  | '다중밀집건축물붕괴대형사고'
+  | '산불'
+  | '초미세먼지 재난'
+  | '해양선박사고';

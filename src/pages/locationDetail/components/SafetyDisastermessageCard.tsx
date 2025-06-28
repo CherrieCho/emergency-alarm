@@ -7,7 +7,7 @@ const AlertCard = styled(Box)(({ theme }) => ({
   border: `1px solid ${theme.palette.grey[300]}`,
   borderRadius: '12px',
   padding: '16px',
-  marginBottom: '16px',
+  // marginBottom: '16px',
   display: 'flex',
   flexDirection: 'column',
   gap: '8px',
