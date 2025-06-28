@@ -8,20 +8,18 @@ import {
   ListItem,
   ListItemButton,
   ListItemIcon,
-  ListItemText,
   styled,
   Toolbar,
   Typography,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import LogoImg from '../../assets/logo.png';
 import theme from '../../theme';
 import CloseIcon from '@mui/icons-material/Close';
 import HomeIcon from '@mui/icons-material/Home';
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 
 const drawerWidth = '100vw'; // drawer를 화면 전체 너비로
 

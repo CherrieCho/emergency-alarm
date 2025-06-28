@@ -1,5 +1,4 @@
-import React from 'react';
-import { useNaturalSafetyData } from '../../hooks/guidelines/useNaturalSafetyData';
+// import { useNaturalSafetyData } from '../../hooks/guidelines/useNaturalSafetyData';
 import { useSocialSafetyData } from '../../hooks/guidelines/useSocialSafetyData';
 import { useParams } from 'react-router-dom';
 import { Box, Grid, Typography } from '@mui/material';
