@@ -10,12 +10,13 @@ const RegionBox = styled(Box)(({ theme }) => ({
   padding: '5px',
   gap: '5px',
   rowGap: '30px',
-  gridTemplateColumns: 'repeat(8, 1fr)',
-  [theme.breakpoints.down('sm')]: {
-    gridTemplateColumns: 'repeat(2, 1fr)',
-  },
+  gridTemplateColumns: 'repeat(6, 1fr)',
+
   [theme.breakpoints.down('md')]: {
     gridTemplateColumns: 'repeat(3, 1fr)',
+  },
+  [theme.breakpoints.down('sm')]: {
+    gridTemplateColumns: 'repeat(2, 1fr)',
   },
 }));
 const RegionCard = styled(Box)(({ theme }) => ({
@@ -32,9 +33,9 @@ const RegionCard = styled(Box)(({ theme }) => ({
   border: '1px solid rgba(0,0,0,0.1)',
   boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
   img: {
-    width: '100px',
-    height: '70%',
-    // border: '1px solid rgba(0,0,0,0.2)',
+    width: '100%',
+    height: '100px',
+    objectFit: 'contain',
     padding: '10px',
     borderRadius: '10px',
     transition: 'transform 0.2s ease',
@@ -107,6 +108,7 @@ const RegionDisasterInfo = () => {
                 height='30%'
               >
                 <Typography
+                  variant='body1'
                   sx={{
                     fontFamily: theme.typography.fontFamily,
                     marginLeft: '5px',
@@ -134,7 +136,6 @@ const RegionDisasterInfo = () => {
           </motion.div>
         ))}
       </RegionBox>
-      ;
     </Box>
   );
 };
