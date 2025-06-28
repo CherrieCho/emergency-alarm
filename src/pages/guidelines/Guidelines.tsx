@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import GuidelineDetail from './GuidelineDetail';
 import {
   Box,
@@ -10,6 +9,7 @@ import {
 } from '@mui/material';
 import type { DisasterItem } from '../../models/guideline';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 //재해 목록
 const naturalDisasters: DisasterItem[] = [

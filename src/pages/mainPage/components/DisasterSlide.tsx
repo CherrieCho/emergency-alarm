@@ -1,70 +1,69 @@
 import {
   Box,
   Typography,
-  useMediaQuery,
-  useTheme,
-  IconButton,
+  // useMediaQuery,
+  // useTheme,
+  // IconButton,
 } from '@mui/material';
-import WarningAmberIcon from '@mui/icons-material/WarningAmber';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import { useState } from 'react';
-import type { Swiper as SwiperClass } from 'swiper';
+// import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+// import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+// import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+// import { Swiper, SwiperSlide } from 'swiper/react';
+// import { Navigation } from 'swiper/modules';
+// import 'swiper/css';
+// import 'swiper/css/navigation';
+// import { useState } from 'react';
+// import type { Swiper as SwiperClass } from 'swiper';
 
-const disasterData = [
-  {
-    region: '창녕군1',
-    message:
-      '오늘 19:18 창녕군 영산휴게소(하행선)에서 발생한 화학사고의 대응이 완료되었습니다. 휴게소 이용객 및 인근 주민은 일상생활로 돌아가시기 바랍니다.',
-    time: '2025/06/25 20:33:50',
-  },
-  {
-    region: '창녕군2',
-    message:
-      '오늘 19:18 창녕군 영산휴게소(하행선)에서 발생한 화학사고의 대응이 완료되었습니다. 휴게소 이용객 및 인근 주민은 일상생활로 돌아가시기 바랍니다.',
-    time: '2025/06/25 20:33:50',
-  },
-  {
-    region: '창녕군3',
-    message:
-      '오늘 19:18 창녕군 영산휴게소(하행선)에서 발생한 화학사고의 대응이 완료되었습니다. 휴게소 이용객 및 인근 주민은 일상생활로 돌아가시기 바랍니다.',
-    time: '2025/06/25 20:33:50',
-  },
-  {
-    region: '창녕군4',
-    message:
-      '오늘 19:18 창녕군 영산휴게소(하행선)에서 발생한 화학사고의 대응이 완료되었습니다. 휴게소 이용객 및 인근 주민은 일상생활로 돌아가시기 바랍니다.',
-    time: '2025/06/25 20:33:50',
-  },
-  {
-    region: '창녕군5',
-    message:
-      '오늘 19:18 창녕군 영산휴게소(하행선)에서 발생한 화학사고의 대응이 완료되었습니다. 휴게소 이용객 및 인근 주민은 일상생활로 돌아가시기 바랍니다.',
-    time: '2025/06/25 20:33:50',
-  },
-];
+// const disasterData = [
+//   {
+//     region: '창녕군1',
+//     message:
+//       '오늘 19:18 창녕군 영산휴게소(하행선)에서 발생한 화학사고의 대응이 완료되었습니다. 휴게소 이용객 및 인근 주민은 일상생활로 돌아가시기 바랍니다.',
+//     time: '2025/06/25 20:33:50',
+//   },
+//   {
+//     region: '창녕군2',
+//     message:
+//       '오늘 19:18 창녕군 영산휴게소(하행선)에서 발생한 화학사고의 대응이 완료되었습니다. 휴게소 이용객 및 인근 주민은 일상생활로 돌아가시기 바랍니다.',
+//     time: '2025/06/25 20:33:50',
+//   },
+//   {
+//     region: '창녕군3',
+//     message:
+//       '오늘 19:18 창녕군 영산휴게소(하행선)에서 발생한 화학사고의 대응이 완료되었습니다. 휴게소 이용객 및 인근 주민은 일상생활로 돌아가시기 바랍니다.',
+//     time: '2025/06/25 20:33:50',
+//   },
+//   {
+//     region: '창녕군4',
+//     message:
+//       '오늘 19:18 창녕군 영산휴게소(하행선)에서 발생한 화학사고의 대응이 완료되었습니다. 휴게소 이용객 및 인근 주민은 일상생활로 돌아가시기 바랍니다.',
+//     time: '2025/06/25 20:33:50',
+//   },
+//   {
+//     region: '창녕군5',
+//     message:
+//       '오늘 19:18 창녕군 영산휴게소(하행선)에서 발생한 화학사고의 대응이 완료되었습니다. 휴게소 이용객 및 인근 주민은 일상생활로 돌아가시기 바랍니다.',
+//     time: '2025/06/25 20:33:50',
+//   },
+// ];
 
 const DisasterCarousel = () => {
-  const theme = useTheme();
-  const isSmDown = useMediaQuery(theme.breakpoints.down('sm'));
-  const [swiper, setSwiper] = useState<SwiperClass>();
-  const [isBeginning, setIsBeginning] = useState(true);
-  const [isEnd, setIsEnd] = useState(false);
+  // const theme = useTheme();
+  // const isSmDown = useMediaQuery(theme.breakpoints.down('sm'));
+  // const [swiper, setSwiper] = useState<SwiperClass>();
+  // const [isBeginning, setIsBeginning] = useState(true);
+  // const [isEnd, setIsEnd] = useState(false);
 
-  const handlePrev = () => swiper?.slidePrev();
-  const handleNext = () => swiper?.slideNext();
+  // const handlePrev = () => swiper?.slidePrev();
+  // const handleNext = () => swiper?.slideNext();
 
   return (
     <Box flex={1} padding='40px'>
       <Typography variant='h1' mb='2em'>
         재난안전 상황정보
       </Typography>
-      <Box maxWidth='1000px' margin='0 auto' position='relative'>
-        {/* Navigation Buttons */}
+      {/* <Box maxWidth='1000px' margin='0 auto' position='relative'>
         <IconButton
           onClick={handlePrev}
           disabled={isBeginning}
@@ -100,7 +99,6 @@ const DisasterCarousel = () => {
           <ArrowForwardIosIcon />
         </IconButton>
 
-        {/* Swiper */}
         <Swiper
           modules={[Navigation]}
           spaceBetween={20}
@@ -132,7 +130,7 @@ const DisasterCarousel = () => {
             </SwiperSlide>
           ))}
         </Swiper>
-      </Box>
+      </Box> */}
     </Box>
   );
 };

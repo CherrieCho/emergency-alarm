@@ -2,7 +2,7 @@ import { Box, Grid, styled, Typography, useTheme } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBolt } from '@fortawesome/free-solid-svg-icons';
 
-const IconCircle = styled(Box)(({ theme }) => ({
+const IconCircle = styled(Box)({
   width: '80px',
   height: '80px',
   borderRadius: '50%',
@@ -18,7 +18,7 @@ const IconCircle = styled(Box)(({ theme }) => ({
     transform: 'translateY(-5px)',
     boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
   },
-}));
+});
 
 const DisasterTypeInfo = () => {
   const theme = useTheme();

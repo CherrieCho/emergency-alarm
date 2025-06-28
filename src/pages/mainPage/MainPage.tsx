@@ -1,4 +1,4 @@
-import { Box, Stack, styled } from '@mui/material';
+import { Stack, styled } from '@mui/material';
 import MainBanner from './components/MainBanner';
 import DisasterSlide from './components/DisasterSlide';
 import RegionDisasterInfo from './components/RegionDisasterInfo';
