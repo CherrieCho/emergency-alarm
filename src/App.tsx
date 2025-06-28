@@ -6,7 +6,7 @@ import Signup from './pages/auth/Signup';
 import AppLayout from './layout/AppLayout';
 import Guidelines from './pages/guidelines/Guidelines';
 import MainPage from './pages/mainPage/MainPage';
-import GuidelineDetail from './pages/guidelines/GuidelineDetail';
+import GuidelineDetail from './pages/guidelines/components/GuidelineDetail';
 import RequireAuth from './components/RequireAuth';
 import MyPage from './pages/myPage/MyPage';
 
