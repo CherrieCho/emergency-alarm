@@ -16,8 +16,9 @@ const disasterDataByCategory: Record<
     {
       SN: 205237,
       MSG_CN:
-        '[남원시] 주천,아영,산내,인월,운봉지역에 많은 비가내려 산사태 위험 높으므로 입산 및 산림주변 통행금지, 대피명령 있을시 마을회관 등 안전한 곳으로 대피바랍니다',
-      RCPTN_RGN_NM: '전라북도 남원시',
+        '[서울특별시 강남구, 부산광역시 해운대구, 대구광역시 수성구, 인천광역시 연수구, 광주광역시 북구, 대전광역시 유성구, 울산광역시 남구, 세종특별자치시, 경기도 성남시 분당구, 강원도 강릉시, 충청북도 청주시 상당구, 전라북도 남원시] 주천,아영,산내,인월,운봉지역에 많은 비가내려 산사태 위험 높으므로 입산 및 산림주변 통행금지, 대피명령 있을시 마을회관 등 안전한 곳으로 대피바랍니다',
+      RCPTN_RGN_NM:
+        '서울특별시 강남구, 부산광역시 해운대구, 대구광역시 수성구, 인천광역시 연수구, 광주광역시 북구, 대전광역시 유성구, 울산광역시 남구, 세종특별자치시, 경기도 성남시 분당구, 강원도 강릉시, 충청북도 청주시 상당구, 전라북도 남원시',
       CRT_DT: '2023/09/16 16:56:05',
       REG_YMD: '2023-09-16',
       EMRG_STEP_NM: '안전안내',
@@ -270,18 +271,19 @@ export default useLocationDetailDisasterMessages;
 //   return response.data;
 // };
 
-// const useLocationDetailDisasterMessages = (
-//   params: Omit<SafetyDisasterMessagesRequest, 'pageNo' | 'numOfRows'>
-// ) => {
+// const useLocationDetailDisasterMessages = (params: {
+//   rgnNm: string;
+//   category: DisasterCategory;
+// }) => {
 //   return useInfiniteQuery({
-//     queryKey: ['locationDetailDisasterMessages', params.rgnNm],
+//     queryKey: ['locationDetailDisasterMessages', params.rgnNm, params.category],
 //     queryFn: ({ pageParam = 1 }) =>
 //       getDetailSafetyDisasterMessages({
 //         numOfRows: 10,
 //         pageNo: pageParam,
 //         returnType: 'json',
 //         crtDt: '',
-//         rgnNm: params.rgnNm,
+//         rgnNm: '',
 //       }),
 //     initialPageParam: 1,
 //     getNextPageParam: (lastPage, allPages) => {
@@ -289,7 +291,37 @@ export default useLocationDetailDisasterMessages;
 //       const currentPage = allPages.length;
 //       const totalPages = Math.ceil((lastPage.totalCount || 0) / 10);
 
-//       return currentPage < totalPages ? currentPage + 1 : undefined;
+//       // 기존 로직
+//       // return currentPage < totalPages ? currentPage + 1 : undefined;
+
+//       // 테스트용 최대 20개까지만 로드 (2페이지)
+//       const maxPages = 2;
+
+//       return currentPage < Math.min(totalPages, maxPages)
+//         ? currentPage + 1
+//         : undefined;
+//     },
+//     select: (data) => {
+//       // 클라이언트에서 필터링
+//       return {
+//         ...data,
+//         pages: data.pages.map((page) => ({
+//           ...page,
+//           body: page.body.filter((item) => {
+//             // 카테고리 필터링
+//             const categoryMatch = item.EMRG_STEP_NM === params.category;
+
+//             // 지역명 필터링 (띄어쓰기 앞부분만 추출)
+//             const regionPrefix = item.RCPTN_RGN_NM.split(' ')[0];
+//             const regionMatch =
+//               params.rgnNm === '' ||
+//               regionPrefix.includes(params.rgnNm) ||
+//               params.rgnNm.includes(regionPrefix);
+
+//             return categoryMatch && regionMatch;
+//           }),
+//         })),
+//       };
 //     },
 //   });
 // };

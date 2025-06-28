@@ -1,13 +1,14 @@
 import { Box, styled, Typography } from '@mui/material';
 import type { SafetyDisasterMessages } from '../../../models';
 import WarningIcon from '@mui/icons-material/Warning';
+import formatRegionNames from '../utils/formatRegionNames';
+import { useSearchParams } from 'react-router-dom';
 
 const AlertCard = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
   border: `1px solid ${theme.palette.grey[300]}`,
   borderRadius: '12px',
   padding: '16px',
-  // marginBottom: '16px',
   display: 'flex',
   flexDirection: 'column',
   gap: '8px',
@@ -20,6 +21,14 @@ const AlertHeader = styled(Box)(({ theme }) => ({
   color: theme.palette.text.primary,
   fontWeight: 600,
 }));
+
+const MessageContent = styled(Typography)({
+  display: '-webkit-box',
+  WebkitBoxOrient: 'vertical',
+  WebkitLineClamp: 4,
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+});
 
 interface SafetyDisastermessageCardProps {
   safetyDisasterMessage: SafetyDisasterMessages;
@@ -37,14 +46,19 @@ const SafetyDisastermessageCard = ({
     DST_SE_NM,
     MDFCN_YMD,
   } = safetyDisasterMessage;
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const selectedRegion = searchParams.get('region') || '전체';
 
   return (
     <AlertCard>
       <AlertHeader>
         <WarningIcon />
-        <Typography variant='subtitle1'>[{RCPTN_RGN_NM}]</Typography>
+        <Typography variant='subtitle1'>
+          {formatRegionNames(RCPTN_RGN_NM, selectedRegion)}
+        </Typography>
       </AlertHeader>
-      <Typography variant='body1'>{MSG_CN}</Typography>
+      <MessageContent variant='body1'>{MSG_CN}</MessageContent>
       <Typography variant='subtitle1'>발송일시: {CRT_DT}</Typography>
     </AlertCard>
   );

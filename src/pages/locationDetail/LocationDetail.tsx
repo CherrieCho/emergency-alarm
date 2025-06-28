@@ -65,6 +65,7 @@ const LocationDetail = () => {
   const [ref, inView] = useInView();
   const selectedRegion = searchParams.get('region') || '전체';
   const selectedCategory = searchParams.get('category') || '';
+  const isAllRegionSelected = selectedRegion === '전체';
 
   // 선택된 카테고리의 인덱스 계산
   const selectedCategoryIndex = selectedCategory
@@ -78,7 +79,7 @@ const LocationDetail = () => {
     hasNextPage,
     isFetchingNextPage,
   } = useLocationDetailDisasterMessages({
-    rgnNm: selectedRegion === '전체' ? '' : selectedRegion,
+    rgnNm: isAllRegionSelected ? '' : selectedRegion,
     category: selectedCategory as DisasterCategory,
   });
 
@@ -118,10 +119,12 @@ const LocationDetail = () => {
           <RoomIcon />
           <Typography variant='h1'>{selectedRegion}</Typography>
         </div>
-        <BookMarkButton
-          isBookMarked={isBookMarked}
-          onClick={() => setIsBookMarked(!isBookMarked)}
-        />
+        {!isAllRegionSelected && (
+          <BookMarkButton
+            isBookMarked={isBookMarked}
+            onClick={() => setIsBookMarked(!isBookMarked)}
+          />
+        )}
       </Header>
 
       <FlickingContainer>
