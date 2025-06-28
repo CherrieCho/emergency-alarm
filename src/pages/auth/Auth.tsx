@@ -7,7 +7,10 @@ import {
   Button,
   Box,
   styled,
+  Snackbar,
+  Alert,
 } from '@mui/material';
+import { login } from '../../apis/auth';
 
 const Wrapper = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -52,9 +55,17 @@ const Auth = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('로그인 시도:', { email, password });
+
+    try {
+      const data = await login(email, password);
+      localStorage.setItem('token', data.token); // ✅ data는 { token, user } 객체여야 함
+      console.log('로그인 성공:', data.user);
+      navigate('/'); // 또는 이동할 페이지
+    } catch (err) {
+      console.error('로그인 실패:', err);
+    }
   };
 
   return (
@@ -101,6 +112,17 @@ const Auth = () => {
           </SignupText>
         </Box>
       </LoginCard>
+
+      <Snackbar
+        open={open}
+        autoHideDuration={3000}
+        onClose={() => setOpen(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      >
+        <Alert onClose={() => setOpen(false)} severity="warning" sx={{ width: '100%' }}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
     </Wrapper>
   );
 };
