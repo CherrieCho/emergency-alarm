@@ -1,20 +1,5 @@
-import { Box, styled, Typography, useTheme } from '@mui/material';
+import { Box, Grid, styled, Typography, useTheme } from '@mui/material';
 import { regionMap } from './config/regionMap';
-
-const RegionBox = styled(Box)(({ theme }) => ({
-  display: 'grid',
-  padding: '5px',
-  gap: '5px',
-  rowGap: '30px',
-  gridTemplateColumns: 'repeat(6, 1fr)',
-
-  [theme.breakpoints.down('md')]: {
-    gridTemplateColumns: 'repeat(3, 1fr)',
-  },
-  [theme.breakpoints.down('sm')]: {
-    gridTemplateColumns: 'repeat(2, 1fr)',
-  },
-}));
 
 const RegionCard = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
@@ -59,30 +44,35 @@ const RegionDisasterInfo = () => {
       >
         지역별 정보조회
       </Typography>
-      <RegionBox>
+      <Grid container spacing={2}>
         {regionMap.map((region) => (
-          <RegionCard key={region.id}>
-            <img src={region.src} alt={region.name} />
-            <Box
-              display='flex'
-              justifyContent='center'
-              alignItems='center'
-              width='100%'
-              marginTop='10px'
-              height='30%'
-            >
-              <Typography
-                variant='body1'
-                sx={{
-                  fontFamily: theme.typography.fontFamily,
-                }}
+          <Grid
+            size={{ xs: 6, md: 4, lg: 2 }}
+            sx={{ display: 'flex', justifyContent: 'center' }}
+          >
+            <RegionCard key={region.id}>
+              <img src={region.src} alt={region.name} />
+              <Box
+                display='flex'
+                justifyContent='center'
+                alignItems='center'
+                width='100%'
+                marginTop='10px'
+                height='30%'
               >
-                {region.name}
-              </Typography>
-            </Box>
-          </RegionCard>
+                <Typography
+                  variant='body1'
+                  sx={{
+                    fontFamily: theme.typography.fontFamily,
+                  }}
+                >
+                  {region.name}
+                </Typography>
+              </Box>
+            </RegionCard>
+          </Grid>
         ))}
-      </RegionBox>
+      </Grid>
     </Box>
   );
 };
