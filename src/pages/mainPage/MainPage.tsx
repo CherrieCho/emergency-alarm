@@ -24,9 +24,6 @@ api 데이터 형태
 const MainPage = () => {
   return (
     <>
-      <Box width='100%' height='100px' borderBottom='1px solid rgba(0,0,0,0.3)'>
-        대충 헤더 라인
-      </Box>
       <Stack spacing={2} width='100%' height='100vh'>
         <MainBanner />
         <DisasterSlide />
