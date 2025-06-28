@@ -32,10 +32,10 @@ const SafetyDisastermessageCard = ({
     MSG_CN,
     RCPTN_RGN_NM,
     CRT_DT,
-    EMRG_STEP_NM,
-    SN,
-    DST_SE_NM,
-    MDFCN_YMD,
+    // EMRG_STEP_NM,
+    // SN,
+    // DST_SE_NM,
+    // MDFCN_YMD,
   } = safetyDisasterMessage;
 
   return (
