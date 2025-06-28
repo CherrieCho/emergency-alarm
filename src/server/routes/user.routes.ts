@@ -1,7 +1,7 @@
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
+import type { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { asyncHandler } from '../utiles/asyncHandler';
-
 
 const router = Router();
 const prisma = new PrismaClient();
@@ -11,6 +11,7 @@ router.get(
   asyncHandler(async (req: Request, res: Response) => {
     const users = await prisma.user.findMany();
     res.json(users);
+    console.log(req);
   })
 );
 
