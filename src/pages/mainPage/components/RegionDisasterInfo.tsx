@@ -1,5 +1,6 @@
 import { Box, Grid, styled, Typography, useTheme } from '@mui/material';
 import { regionMap } from './config/regionMap';
+import { Link } from 'react-router-dom';
 
 const RegionCard = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
@@ -45,30 +46,37 @@ const RegionDisasterInfo = () => {
         지역별 정보조회
       </Typography>
       <Grid container spacing={2}>
-        {regionMap.map((region) => (
+        {regionMap.map((region, index) => (
           <Grid
+            key={index}
             size={{ xs: 6, md: 4, lg: 2 }}
             sx={{ display: 'flex', justifyContent: 'center' }}
           >
             <RegionCard key={region.id}>
-              <img src={region.src} alt={region.name} />
-              <Box
-                display='flex'
-                justifyContent='center'
-                alignItems='center'
-                width='100%'
-                marginTop='10px'
-                height='30%'
+              <Link
+                to={`/location-detail?region=${region.shortName}`}
+                style={{ textDecoration: 'none', color: '#333333' }}
               >
-                <Typography
-                  variant='body1'
-                  sx={{
-                    fontFamily: theme.typography.fontFamily,
-                  }}
+                <img src={region.src} alt={region.name} />
+                <Box
+                  display='flex'
+                  justifyContent='center'
+                  alignItems='center'
+                  width='100%'
+                  marginTop='10px'
+                  height='30%'
                 >
-                  {region.name}
-                </Typography>
-              </Box>
+                  <Typography
+                    variant='body1'
+                    sx={{
+                      fontFamily: theme.typography.fontFamily,
+                      fontWeight: 600,
+                    }}
+                  >
+                    {region.name}
+                  </Typography>
+                </Box>
+              </Link>
             </RegionCard>
           </Grid>
         ))}

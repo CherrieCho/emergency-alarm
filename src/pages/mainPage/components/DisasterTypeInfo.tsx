@@ -1,6 +1,7 @@
-import { Box, Grid, styled, Typography, useTheme } from '@mui/material';
+import { Box, Grid, styled, Typography } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBolt } from '@fortawesome/free-solid-svg-icons';
+import { disasterIcon, disasterType } from './config/disasterType';
+import { Link } from 'react-router-dom';
 
 const IconCircle = styled(Box)({
   width: '80px',
@@ -21,7 +22,6 @@ const IconCircle = styled(Box)({
 });
 
 const DisasterTypeInfo = () => {
-  const theme = useTheme();
   return (
     <Box flex={2} padding='40px'>
       <Typography
@@ -33,252 +33,44 @@ const DisasterTypeInfo = () => {
         재난별 정보조회
       </Typography>
       <Grid container spacing={2}>
-        {/* {ㅡㅡ} */}
-        <Grid
-          size={{ xs: 6, sm: 5, md: 4, lg: 3 }}
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
-          <Box
+        {disasterType.map((item, index) => (
+          <Grid
+            key={index}
+            size={{ xs: 6, sm: 5, md: 4, lg: 3 }}
             sx={{
               display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
-            <IconCircle>
-              <FontAwesomeIcon icon={faBolt} size='lg' />
-            </IconCircle>
-            <Typography
-              variant='body1'
-              sx={{
-                marginTop: '8px',
-                fontFamily: theme.typography.fontFamily,
-                fontSize: '0.9rem',
-              }}
+            <Link
+              to={`/location-detail?category=${item}`}
+              style={{ textDecoration: 'none', color: '#333333' }}
             >
-              낙뢰
-            </Typography>
-          </Box>
-        </Grid>
-        {/* {ㅡㅡ} */}
-        <Grid
-          size={{ xs: 6, sm: 5, md: 4, lg: 3 }}
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
-            <IconCircle>
-              <FontAwesomeIcon icon={faBolt} size='lg' />
-            </IconCircle>
-            <Typography
-              variant='body1'
-              sx={{
-                marginTop: '8px',
-                fontFamily: theme.typography.fontFamily,
-                fontSize: '0.9rem',
-              }}
-            >
-              낙뢰
-            </Typography>
-          </Box>
-        </Grid>
-        {/* {ㅡㅡ} */}
-        <Grid
-          size={{ xs: 6, sm: 5, md: 4, lg: 3 }}
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
-            <IconCircle>
-              <FontAwesomeIcon icon={faBolt} size='lg' />
-            </IconCircle>
-            <Typography
-              variant='body1'
-              sx={{
-                marginTop: '8px',
-                fontFamily: theme.typography.fontFamily,
-                fontSize: '0.9rem',
-              }}
-            >
-              낙뢰
-            </Typography>
-          </Box>
-        </Grid>
-        {/* {ㅡㅡ} */}
-        <Grid
-          size={{ xs: 6, sm: 5, md: 4, lg: 3 }}
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
-            <IconCircle>
-              <FontAwesomeIcon icon={faBolt} size='lg' />
-            </IconCircle>
-            <Typography
-              variant='body1'
-              sx={{
-                marginTop: '8px',
-                fontFamily: theme.typography.fontFamily,
-                fontSize: '0.9rem',
-              }}
-            >
-              낙뢰
-            </Typography>
-          </Box>
-        </Grid>
-        {/* {ㅡㅡ} */}
-        {/* {ㅡㅡ} */}
-        <Grid
-          size={{ xs: 6, sm: 5, md: 4, lg: 3 }}
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
-            <IconCircle>
-              <FontAwesomeIcon icon={faBolt} size='lg' />
-            </IconCircle>
-            <Typography
-              variant='body1'
-              sx={{
-                marginTop: '8px',
-                fontFamily: theme.typography.fontFamily,
-                fontSize: '0.9rem',
-              }}
-            >
-              낙뢰
-            </Typography>
-          </Box>
-        </Grid>
-        {/* {ㅡㅡ} */}
-        {/* {ㅡㅡ} */}
-        <Grid
-          size={{ xs: 6, sm: 5, md: 4, lg: 3 }}
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
-            <IconCircle>
-              <FontAwesomeIcon icon={faBolt} size='lg' />
-            </IconCircle>
-            <Typography
-              variant='body1'
-              sx={{
-                marginTop: '8px',
-                fontFamily: theme.typography.fontFamily,
-                fontSize: '0.9rem',
-              }}
-            >
-              낙뢰
-            </Typography>
-          </Box>
-        </Grid>
-        {/* {ㅡㅡ} */}
-        {/* {ㅡㅡ} */}
-        <Grid
-          size={{ xs: 6, sm: 5, md: 4, lg: 3 }}
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
-            <IconCircle>
-              <FontAwesomeIcon icon={faBolt} size='lg' />
-            </IconCircle>
-            <Typography
-              variant='body1'
-              sx={{
-                marginTop: '8px',
-                fontFamily: theme.typography.fontFamily,
-                fontSize: '0.9rem',
-              }}
-            >
-              낙뢰
-            </Typography>
-          </Box>
-        </Grid>
-        {/* {ㅡㅡ} */}
-        {/* {ㅡㅡ} */}
-        <Grid
-          size={{ xs: 6, sm: 5, md: 4, lg: 3 }}
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
-            <IconCircle>
-              <FontAwesomeIcon icon={faBolt} size='lg' />
-            </IconCircle>
-            <Typography
-              variant='body1'
-              sx={{
-                marginTop: '8px',
-                fontFamily: theme.typography.fontFamily,
-                fontSize: '0.9rem',
-              }}
-            >
-              낙뢰
-            </Typography>
-          </Box>
-        </Grid>
-        {/* {ㅡㅡ} */}
-        {/* {ㅡㅡ} */}
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                }}
+              >
+                <IconCircle>
+                  <FontAwesomeIcon icon={disasterIcon[index]} size='lg' />
+                </IconCircle>
+                <Typography
+                  variant='body1'
+                  sx={{
+                    marginTop: '1em',
+                    fontSize: '0.9rem',
+                    fontWeight: 600,
+                    color: '#333333',
+                  }}
+                >
+                  {item}
+                </Typography>
+              </Box>
+            </Link>
+          </Grid>
+        ))}
       </Grid>
     </Box>
   );
