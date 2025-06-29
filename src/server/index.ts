@@ -21,7 +21,7 @@ app.use(cors({
   credentials: true,
 }));
 app.use(express.json());
-app.get('/api', (req, res) => {
+app.get('/api', (_req, res) => {
   res.send('✅ API is running');
 });
 app.use('/api', authRoutes);
