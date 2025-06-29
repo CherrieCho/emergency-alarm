@@ -21,6 +21,9 @@ app.use(cors({
   credentials: true,
 }));
 app.use(express.json());
+app.get('/api', (req, res) => {
+  res.send('✅ API is running');
+});
 app.use('/api', authRoutes);
 
 // ✅ /api/users 라우터 연결
