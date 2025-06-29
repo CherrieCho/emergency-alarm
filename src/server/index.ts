@@ -13,7 +13,6 @@ const app = express();
 const allowedOrigins = [
   'http://localhost:3000',
   'https://emergency-alarm.vercel.app',
-  'https://4yd8adlh.up.railway.app/',
 ];
 
 app.use(cors({
