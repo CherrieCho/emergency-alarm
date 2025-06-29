@@ -101,7 +101,11 @@ const RegionSelectModal: React.FC<RegionSelectModalProps> = ({
       <ModalBox>
         <Title variant='h5'>시/도</Title>
         <CloseButton onClick={onClose}>
-          <CloseIcon sx={{ color: 'black' }} />
+          <CloseIcon
+            sx={{
+              color: (theme) => theme.palette.grey[500],
+            }}
+          />
         </CloseButton>
         <RegionGrid>
           {regions.map((region) => (
@@ -117,10 +121,6 @@ const RegionSelectModal: React.FC<RegionSelectModalProps> = ({
             </RegionButton>
           ))}
         </RegionGrid>
-        {/* <BottomBox>
-          <NearbyButton onClick={onSelectNearby}>내 주변</NearbyButton>
-          <DisabledButton disabled>지역을 선택해주세요</DisabledButton>
-        </BottomBox> */}
       </ModalBox>
     </Modal>
   );

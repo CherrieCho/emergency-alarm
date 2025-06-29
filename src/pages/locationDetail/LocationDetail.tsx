@@ -11,6 +11,7 @@ import SkeletonCards from './components/SkeletonCards';
 import Flicking from '@egjs/react-flicking';
 import type { DisasterCategory } from '../../models';
 import BookMarkButton from './components/BookMarkButton';
+import EmptyNotice from './components/EmptyNotice';
 
 const Container = styled(Box)(({ theme }) => ({
   padding: '32px 16px',
@@ -65,6 +66,7 @@ const LocationDetail = () => {
   const [ref, inView] = useInView();
   const selectedRegion = searchParams.get('region') || '전체';
   const selectedCategory = searchParams.get('category') || '';
+  const isAllRegionSelected = selectedRegion === '전체';
 
   // 선택된 카테고리의 인덱스 계산
   const selectedCategoryIndex = selectedCategory
@@ -78,7 +80,7 @@ const LocationDetail = () => {
     hasNextPage,
     isFetchingNextPage,
   } = useLocationDetailDisasterMessages({
-    rgnNm: selectedRegion === '전체' ? '' : selectedRegion,
+    rgnNm: isAllRegionSelected ? '' : selectedRegion,
     category: selectedCategory as DisasterCategory,
   });
 
@@ -118,10 +120,12 @@ const LocationDetail = () => {
           <RoomIcon />
           <Typography variant='h1'>{selectedRegion}</Typography>
         </div>
-        <BookMarkButton
-          isBookMarked={isBookMarked}
-          onClick={() => setIsBookMarked(!isBookMarked)}
-        />
+        {!isAllRegionSelected && (
+          <BookMarkButton
+            isBookMarked={isBookMarked}
+            onClick={() => setIsBookMarked(!isBookMarked)}
+          />
+        )}
       </Header>
 
       <FlickingContainer>
@@ -146,23 +150,30 @@ const LocationDetail = () => {
 
       {isPending && <SkeletonCards count={10} />}
       {!isPending && (
-        <Box
-          display='grid'
-          gridTemplateColumns={{
-            xs: '1fr', // 모바일: 1열
-            sm: 'repeat(2, 1fr)', // 태블릿 이상: 2열
-          }}
-          gap='16px'
-        >
-          {safetyDisasterMessages?.pages
-            ?.flatMap((page) => page.body || [])
-            .map((message) => (
-              <SafetyDisastermessageCard
-                key={message.SN}
-                safetyDisasterMessage={message}
-              />
-            ))}
-        </Box>
+        <>
+          {safetyDisasterMessages?.pages?.flatMap((page) => page.body || [])
+            .length === 0 ? (
+            <EmptyNotice />
+          ) : (
+            <Box
+              display='grid'
+              gridTemplateColumns={{
+                xs: '1fr', // 모바일: 1열
+                sm: 'repeat(2, 1fr)', // 태블릿 이상: 2열
+              }}
+              gap='16px'
+            >
+              {safetyDisasterMessages?.pages
+                ?.flatMap((page) => page.body || [])
+                .map((message) => (
+                  <SafetyDisastermessageCard
+                    key={message.SN}
+                    safetyDisasterMessage={message}
+                  />
+                ))}
+            </Box>
+          )}
+        </>
       )}
 
       {/* 무한스크롤 트리거 */}
