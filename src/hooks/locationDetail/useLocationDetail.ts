@@ -1,4 +1,4 @@
-// import axios from 'axios';
+import axios from 'axios';
 import type {
   SafetyDisasterMessagesRequest,
   SafetyDisasterMessagesResponse,
@@ -6,6 +6,7 @@ import type {
   DisasterCategory,
 } from '../../models';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { REGION_FULL_NAMES } from '../../pages/locationDetail/constants';
 
 // 카테고리별 실제 재난 데이터
 const disasterDataByCategory: Record<
@@ -165,18 +166,41 @@ const disasterDataByCategory: Record<
       MDFCN_YMD: '2023-09-16',
     },
   ],
+  교통통제: [
+    {
+      SN: 205008,
+      MSG_CN:
+        '[경찰청] 서울 강남구 테헤란로에서 교통사고로 인한 교통통제가 실시되고 있습니다. 해당 구간을 이용하시는 운전자분들은 우회로를 이용해주시기 바랍니다.',
+      RCPTN_RGN_NM: '서울특별시 강남구',
+      CRT_DT: '2023/09/16 19:15:00',
+      REG_YMD: '2023-09-16',
+      EMRG_STEP_NM: '안전안내',
+      DST_SE_NM: '교통통제',
+      MDFCN_YMD: '2023-09-16',
+    },
+  ],
+  기타: [
+    {
+      SN: 205009,
+      MSG_CN:
+        '[행정안전부] 전국적으로 안전사고 예방을 위한 안전점검이 실시됩니다. 각 가정과 사업장에서 안전관리에 주의를 기울여주시기 바랍니다.',
+      RCPTN_RGN_NM: '전국',
+      CRT_DT: '2023/09/16 20:00:00',
+      REG_YMD: '2023-09-16',
+      EMRG_STEP_NM: '안전안내',
+      DST_SE_NM: '기타',
+      MDFCN_YMD: '2023-09-16',
+    },
+  ],
 };
 
 // 임시 데이터 생성 함수
 const generateMockData = (
   pageNo: number,
-  rgnNm: string,
-  category: DisasterCategory
+  rgnNm: string
 ): SafetyDisasterMessagesResponse => {
   // 카테고리에 해당하는 데이터 가져오기
-  const categoryData =
-    disasterDataByCategory[category] ||
-    disasterDataByCategory['풍수해(태풍,호우,대설)'];
+  const categoryData = disasterDataByCategory['풍수해(태풍,호우,대설)'];
 
   // 페이지별로 다른 데이터 생성 (10개씩)
   const mockMessages: SafetyDisasterMessages[] = Array.from(
@@ -207,28 +231,40 @@ const generateMockData = (
   };
 };
 
-const getDetailSafetyDisasterMessages = async (
-  params: SafetyDisasterMessagesRequest & { category: DisasterCategory }
+const getMockApiData = async (
+  params: SafetyDisasterMessagesRequest
 ): Promise<SafetyDisasterMessagesResponse> => {
   // API 요청 대신 임시 데이터 반환
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(
-        generateMockData(
-          params.pageNo || 1,
-          params.rgnNm || '',
-          params.category
-        )
-      );
-    }, 500); // 0.5초 지연으로 로딩 상태 확인 가능
-  });
+  return generateMockData(params.pageNo || 1, params.rgnNm || '');
 };
 
-const useLocationDetailDisasterMessages = (
-  params: Omit<SafetyDisasterMessagesRequest, 'pageNo' | 'numOfRows'> & {
-    category: DisasterCategory;
-  }
+const getDetailSafetyDisasterMessages = async (
+  params: SafetyDisasterMessagesRequest
 ) => {
+  const SERVICE_KEY = import.meta.env.VITE_APP_API_KEY;
+
+  // 개발 환경에서 목데이터 사용
+  if (import.meta.env.DEV) {
+    return getMockApiData(params);
+  }
+
+  const response = await axios.get<SafetyDisasterMessagesResponse>(
+    '/safety-api/V2/api/DSSP-IF-00247',
+    {
+      params: {
+        serviceKey: SERVICE_KEY,
+        ...params,
+      },
+    }
+  );
+
+  return response.data;
+};
+
+const useLocationDetailDisasterMessages = (params: {
+  rgnNm: string;
+  category: DisasterCategory | '';
+}) => {
   return useInfiniteQuery({
     queryKey: ['locationDetailDisasterMessages', params.rgnNm, params.category],
     queryFn: ({ pageParam = 1 }) =>
@@ -237,8 +273,7 @@ const useLocationDetailDisasterMessages = (
         pageNo: pageParam,
         returnType: 'json',
         crtDt: '',
-        rgnNm: params.rgnNm,
-        category: params.category,
+        rgnNm: '',
       }),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
@@ -246,84 +281,41 @@ const useLocationDetailDisasterMessages = (
       const currentPage = allPages.length;
       const totalPages = Math.ceil((lastPage.totalCount || 0) / 10);
 
-      return currentPage < totalPages ? currentPage + 1 : undefined;
+      // 기존 로직
+      // return currentPage < totalPages ? currentPage + 1 : undefined;
+
+      // 테스트용 최대 20개까지만 로드 (2페이지)
+      const maxPages = 2;
+
+      return currentPage < Math.min(totalPages, maxPages)
+        ? currentPage + 1
+        : undefined;
+    },
+    select: (data) => {
+      // 클라이언트에서 필터링
+      return {
+        ...data,
+        pages: data.pages.map((page) => ({
+          ...page,
+          body: page.body.filter((item) => {
+            // 카테고리 필터링
+            const categoryMatch =
+              params.category === '' ||
+              params.category.includes(item.DST_SE_NM);
+
+            // 지역명 필터링 (띄어쓰기 앞부분만 추출)
+            const regionPrefix = item.RCPTN_RGN_NM.split(' ')[0];
+
+            const regionMatch =
+              params.rgnNm === '' ||
+              regionPrefix === REGION_FULL_NAMES[params.rgnNm];
+
+            return categoryMatch && regionMatch;
+          }),
+        })),
+      };
     },
   });
 };
 
 export default useLocationDetailDisasterMessages;
-
-// const getDetailSafetyDisasterMessages = async (
-//   params: SafetyDisasterMessagesRequest
-// ) => {
-//   const SERVICE_KEY = import.meta.env.VITE_APP_API_KEY;
-
-//   const response = await axios.get<SafetyDisasterMessagesResponse>(
-//     '/safety-api/V2/api/DSSP-IF-00247',
-//     {
-//       params: {
-//         serviceKey: SERVICE_KEY,
-//         ...params,
-//       },
-//     }
-//   );
-
-//   return response.data;
-// };
-
-// const useLocationDetailDisasterMessages = (params: {
-//   rgnNm: string;
-//   category: DisasterCategory;
-// }) => {
-//   return useInfiniteQuery({
-//     queryKey: ['locationDetailDisasterMessages', params.rgnNm, params.category],
-//     queryFn: ({ pageParam = 1 }) =>
-//       getDetailSafetyDisasterMessages({
-//         numOfRows: 10,
-//         pageNo: pageParam,
-//         returnType: 'json',
-//         crtDt: '',
-//         rgnNm: '',
-//       }),
-//     initialPageParam: 1,
-//     getNextPageParam: (lastPage, allPages) => {
-//       // API 응답에서 총 페이지 수나 다음 페이지 정보를 확인
-//       const currentPage = allPages.length;
-//       const totalPages = Math.ceil((lastPage.totalCount || 0) / 10);
-
-//       // 기존 로직
-//       // return currentPage < totalPages ? currentPage + 1 : undefined;
-
-//       // 테스트용 최대 20개까지만 로드 (2페이지)
-//       const maxPages = 2;
-
-//       return currentPage < Math.min(totalPages, maxPages)
-//         ? currentPage + 1
-//         : undefined;
-//     },
-//     select: (data) => {
-//       // 클라이언트에서 필터링
-//       return {
-//         ...data,
-//         pages: data.pages.map((page) => ({
-//           ...page,
-//           body: page.body.filter((item) => {
-//             // 카테고리 필터링
-//             const categoryMatch = item.EMRG_STEP_NM === params.category;
-
-//             // 지역명 필터링 (띄어쓰기 앞부분만 추출)
-//             const regionPrefix = item.RCPTN_RGN_NM.split(' ')[0];
-//             const regionMatch =
-//               params.rgnNm === '' ||
-//               regionPrefix.includes(params.rgnNm) ||
-//               params.rgnNm.includes(regionPrefix);
-
-//             return categoryMatch && regionMatch;
-//           }),
-//         })),
-//       };
-//     },
-//   });
-// };
-
-// export default useLocationDetailDisasterMessages;

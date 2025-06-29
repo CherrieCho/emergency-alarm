@@ -11,6 +11,7 @@ import SkeletonCards from './components/SkeletonCards';
 import Flicking from '@egjs/react-flicking';
 import type { DisasterCategory } from '../../models';
 import BookMarkButton from './components/BookMarkButton';
+import EmptyNotice from './components/EmptyNotice';
 
 const Container = styled(Box)(({ theme }) => ({
   padding: '32px 16px',
@@ -149,23 +150,30 @@ const LocationDetail = () => {
 
       {isPending && <SkeletonCards count={10} />}
       {!isPending && (
-        <Box
-          display='grid'
-          gridTemplateColumns={{
-            xs: '1fr', // 모바일: 1열
-            sm: 'repeat(2, 1fr)', // 태블릿 이상: 2열
-          }}
-          gap='16px'
-        >
-          {safetyDisasterMessages?.pages
-            ?.flatMap((page) => page.body || [])
-            .map((message) => (
-              <SafetyDisastermessageCard
-                key={message.SN}
-                safetyDisasterMessage={message}
-              />
-            ))}
-        </Box>
+        <>
+          {safetyDisasterMessages?.pages?.flatMap((page) => page.body || [])
+            .length === 0 ? (
+            <EmptyNotice />
+          ) : (
+            <Box
+              display='grid'
+              gridTemplateColumns={{
+                xs: '1fr', // 모바일: 1열
+                sm: 'repeat(2, 1fr)', // 태블릿 이상: 2열
+              }}
+              gap='16px'
+            >
+              {safetyDisasterMessages?.pages
+                ?.flatMap((page) => page.body || [])
+                .map((message) => (
+                  <SafetyDisastermessageCard
+                    key={message.SN}
+                    safetyDisasterMessage={message}
+                  />
+                ))}
+            </Box>
+          )}
+        </>
       )}
 
       {/* 무한스크롤 트리거 */}

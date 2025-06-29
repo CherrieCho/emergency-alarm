@@ -1,4 +1,5 @@
 import { useMediaQuery, useTheme } from '@mui/material';
+import { REGION_FULL_NAMES } from '../constants';
 
 const formatRegionNames = (regionNames: string, selectedRegion?: string) => {
   const theme = useTheme();
@@ -12,9 +13,8 @@ const formatRegionNames = (regionNames: string, selectedRegion?: string) => {
     const filteredRegions = regions.filter((region) => {
       // 지역명의 앞부분만 추출 (띄어쓰기 전까지)
       const regionPrefix = region.split(' ')[0];
-      const selectedPrefix = selectedRegion.split(' ')[0];
 
-      return regionPrefix === selectedPrefix;
+      return regionPrefix === REGION_FULL_NAMES[selectedRegion];
     });
 
     if (filteredRegions.length > 0) {
