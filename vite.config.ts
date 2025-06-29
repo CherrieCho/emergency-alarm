@@ -15,4 +15,8 @@ export default defineConfig({
       },
     },
   },
+  build: {
+    emptyOutDir: false, // ✅ dist 폴더 비우지 않음 (서버 코드 보호)
+    outDir: 'dist',
+  },
 });
