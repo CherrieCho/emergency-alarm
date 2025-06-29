@@ -9,7 +9,6 @@ interface DecodedToken {
   exp: number;
   iat: number;
 }
-
 const MyPage = () => {
   const token = localStorage.getItem('token');
 

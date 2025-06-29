@@ -1,4 +1,4 @@
-import GuidelineDetail from './GuidelineDetail';
+import GuidelineDetail from './components/GuidelineDetail';
 import {
   Box,
   FormControl,
