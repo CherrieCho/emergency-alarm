@@ -15,17 +15,14 @@ import { useState } from 'react';
 const naturalDisasters: DisasterItem[] = [
   { name: '태풍', cateId: '01001', pageNo: 1 },
   { name: '호우', cateId: '01003', pageNo: 2 },
-  { name: '가뭄' },
   { name: '폭염' },
-  { name: '한파' },
   { name: '대설' },
   { name: '지진' },
-  { name: '황사' },
+  { name: '대기오염' },
   { name: '홍수' },
 ];
 
 const socialDisasters: DisasterItem[] = [
-  { name: '화재' },
   { name: '산불' },
   { name: '붕괴' },
   { name: '폭발', cateId: '02015', pageNo: 1 },
@@ -43,7 +40,7 @@ const socialDisasters: DisasterItem[] = [
 // import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 // import ForestIcon from '@mui/icons-material/Forest';
 // import CoronavirusIcon from '@mui/icons-material/Coronavirus';
-//가뭄, 지진, 황사, 폭발, 원전사고는 fontawsome
+//지진, 황사, 폭발, 원전사고는 fontawsome
 
 const Guidelines = () => {
   const navigate = useNavigate();

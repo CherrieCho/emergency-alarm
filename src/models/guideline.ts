@@ -10,3 +10,9 @@ export type DisasterItem = {
   cateId?: string;
   pageNo?: number;
 };
+
+export interface GuidelineContent {
+  name: string;
+  tips: string[];
+  images: string[];
+}

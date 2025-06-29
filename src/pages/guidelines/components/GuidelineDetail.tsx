@@ -3,6 +3,8 @@ import { useSocialSafetyData } from '../../../hooks/guidelines/useSocialSafetyDa
 import { useParams } from 'react-router-dom';
 import { Box, Grid, Typography } from '@mui/material';
 import { styled, useMediaQuery, useTheme } from '@mui/system';
+import type { GuidelineContent } from '../../../models/guideline';
+import { emergencyTips } from './config/emergencyTips';
 
 const GuidelineBox = styled(Box)({
   padding: '16px',
@@ -11,20 +13,27 @@ const GuidelineBox = styled(Box)({
   alignItems: 'center',
 });
 
-const GuidelineImage = styled('img')({
-  width: '100%',
+const GuidelineImage = styled('img')(({ theme }) => ({
+  width: 'auto',
   height: '100%',
-  objectFit: 'cover',
-});
+  [theme.breakpoints.down('sm')]: {
+    width: '140px',
+  },
+}));
 
 const GuidelineDetail = () => {
   const { id } = useParams<{ id: string }>();
   const theme = useTheme();
   const isLargeScreen = useMediaQuery(theme.breakpoints.up('lg'));
 
+  //emergencyTips 배열에서 name이 현재 url의 params와 일치하는 것을 찾아 렌더링
+  const content: GuidelineContent | undefined = emergencyTips.find(
+    (item) => item.name === id
+  );
+
   // const { data } = useNaturalSafetyData({ safety_cate: '01014', pageNo: 1 });
-  const { data } = useSocialSafetyData({ safety_cate: '02006', pageNo: 1 });
-  console.log(data);
+  // const { data } = useSocialSafetyData({ safety_cate: '02006', pageNo: 1 });
+  // console.log(data);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', padding: '30px 0' }}>
@@ -40,72 +49,31 @@ const GuidelineDetail = () => {
             justifyContent={isLargeScreen ? 'space-between' : 'flex-start'}
             sx={{ marginTop: '3rem' }}
           >
-            <Grid size={{ xs: 6, md: 4, lg: 2 }}>
-              <GuidelineBox>
-                <Box>
-                  <GuidelineImage src='https://d.kbs.co.kr/static/images/now/earthquake/tipsCard1.png' />
-                </Box>
-                <Typography
-                  variant='body1'
-                  sx={{ padding: '10px', paddingTop: '1em' }}
-                >
-                  탁자 아래로 들어가 다리를 잡고 몸을 보호합니다.
-                </Typography>
-              </GuidelineBox>
-            </Grid>
-            <Grid size={{ xs: 6, md: 4, lg: 2 }}>
-              <GuidelineBox>
-                <Box>
-                  <GuidelineImage src='https://d.kbs.co.kr/static/images/now/earthquake/tipsCard1.png' />
-                </Box>
-                <Typography
-                  variant='body1'
-                  sx={{ padding: '10px', paddingTop: '1em' }}
-                >
-                  탁자 아래로 들어가 다리를 잡고 몸을 보호합니다.
-                </Typography>
-              </GuidelineBox>
-            </Grid>
-            <Grid size={{ xs: 6, md: 4, lg: 2 }}>
-              <GuidelineBox>
-                <Box>
-                  <GuidelineImage src='https://d.kbs.co.kr/static/images/now/earthquake/tipsCard1.png' />
-                </Box>
-                <Typography
-                  variant='body1'
-                  sx={{ padding: '10px', paddingTop: '1em' }}
-                >
-                  탁자 아래로 들어가 다리를 잡고 몸을 보호합니다.
-                </Typography>
-              </GuidelineBox>
-            </Grid>
-            <Grid size={{ xs: 6, md: 4, lg: 2 }}>
-              <GuidelineBox>
-                <Box>
-                  <GuidelineImage src='https://d.kbs.co.kr/static/images/now/earthquake/tipsCard1.png' />
-                </Box>
-                <Typography
-                  variant='body1'
-                  sx={{ padding: '10px', paddingTop: '1em' }}
-                >
-                  탁자 아래로 들어가 다리를 잡고 몸을 보호합니다.
-                </Typography>
-              </GuidelineBox>
-            </Grid>
-            <Grid size={{ xs: 6, md: 4, lg: 2 }}>
-              <GuidelineBox>
-                <Box>
-                  <GuidelineImage src='https://d.kbs.co.kr/static/images/now/earthquake/tipsCard1.png' />
-                </Box>
-                <Typography
-                  variant='body1'
-                  sx={{ padding: '10px', paddingTop: '1em' }}
-                >
-                  탁자 아래로 들어가 다리를 잡고 몸을 보호합니다.
-                </Typography>
-              </GuidelineBox>
-            </Grid>
+            {content?.tips.map((tip, index) => (
+              <Grid size={{ xs: 6, md: 4, lg: 2 }} key={index}>
+                <GuidelineBox>
+                  <Box sx={{ height: '100px' }}>
+                    <GuidelineImage src={content.images[index]} alt={tip} />
+                  </Box>
+                  <Typography
+                    variant='body1'
+                    sx={{ padding: '10px', paddingTop: '1em' }}
+                  >
+                    {tip}
+                  </Typography>
+                </GuidelineBox>
+              </Grid>
+            ))}
           </Grid>
+          <Box
+            sx={{
+              marginTop: '2em',
+              display: 'flex',
+              justifyContent: 'flex-end',
+            }}
+          >
+            <Typography variant='subtitle1'>이미지 출처: KBS</Typography>
+          </Box>
         </div>
       ) : (
         <Box
