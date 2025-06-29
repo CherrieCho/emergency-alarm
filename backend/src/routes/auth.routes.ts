@@ -2,7 +2,7 @@ import { Router, type Request, type Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { asyncHandler } from '../utiles/asyncHandler';
+import { asyncHandler } from '../utils/asyncHandler';
 
 const router = Router();
 const prisma = new PrismaClient();
@@ -18,7 +18,9 @@ router.post(
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(400).json({ message: '이메일과 비밀번호를 입력해주세요.' });
+      return res
+        .status(400)
+        .json({ message: '이메일과 비밀번호를 입력해주세요.' });
     }
 
     // 사용자 조회

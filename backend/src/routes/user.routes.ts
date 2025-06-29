@@ -1,6 +1,6 @@
 import { Router, type Request, type Response } from 'express';
 import { PrismaClient } from '@prisma/client';
-import { asyncHandler } from '../utiles/asyncHandler';
+import { asyncHandler } from '../utils/asyncHandler';
 import bcrypt from 'bcrypt';
 const router = Router();
 const prisma = new PrismaClient();
@@ -25,7 +25,9 @@ router.post(
 
     // 입력값 검증
     if (!name || !email || !password) {
-      return res.status(400).json({ message: 'name, email, password는 필수입니다.' });
+      return res
+        .status(400)
+        .json({ message: 'name, email, password는 필수입니다.' });
     }
 
     // ✅ 중복 이메일 체크
