@@ -1,5 +1,5 @@
 // import { useNaturalSafetyData } from '../../hooks/guidelines/useNaturalSafetyData';
-import { useSocialSafetyData } from '../../../hooks/guidelines/useSocialSafetyData';
+// import { useSocialSafetyData } from '../../../hooks/guidelines/useSocialSafetyData';
 import { useParams } from 'react-router-dom';
 import { Box, Grid, Typography } from '@mui/material';
 import { styled, useMediaQuery, useTheme } from '@mui/system';
