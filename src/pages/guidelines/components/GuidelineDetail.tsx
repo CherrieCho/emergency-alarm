@@ -57,7 +57,12 @@ const GuidelineDetail = () => {
                   </Box>
                   <Typography
                     variant='body1'
-                    sx={{ padding: '10px', paddingTop: '1em' }}
+                    sx={{
+                      padding: '10px',
+                      paddingTop: '1em',
+                      fontWeight: 600,
+                      color: '#333333',
+                    }}
                   >
                     {tip}
                   </Typography>
@@ -85,7 +90,7 @@ const GuidelineDetail = () => {
             padding: '30px 10px',
           }}
         >
-          <Typography variant='h1'>
+          <Typography variant='h1' sx={{ color: '#666666' }}>
             카테고리에서 재난을 선택하여 행동요령을 확인하세요.
           </Typography>
         </Box>

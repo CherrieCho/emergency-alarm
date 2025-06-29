@@ -8,8 +8,8 @@ import {
   type SelectChangeEvent,
 } from '@mui/material';
 import type { DisasterItem } from '../../models/guideline';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 //재해 목록
 const naturalDisasters: DisasterItem[] = [
@@ -30,23 +30,28 @@ const socialDisasters: DisasterItem[] = [
   { name: '원전사고' },
 ];
 
-// import CycloneIcon from '@mui/icons-material/Cyclone';
-// import ThunderstormIcon from '@mui/icons-material/Thunderstorm';
-// import FloodIcon from '@mui/icons-material/Flood';
-// import LandslideIcon from '@mui/icons-material/Landslide';
-// import SunnyIcon from '@mui/icons-material/Sunny';
-// import AcUnitIcon from '@mui/icons-material/AcUnit';
-// import SevereColdIcon from '@mui/icons-material/SevereCold';
-// import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
-// import ForestIcon from '@mui/icons-material/Forest';
-// import CoronavirusIcon from '@mui/icons-material/Coronavirus';
-//지진, 황사, 폭발, 원전사고는 fontawsome
-
 const Guidelines = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
   //카테고리 1, 2
   const [category, setCategory] = useState<string>('');
   const [disaster, setDisaster] = useState<string>('');
+
+  // 새로고침 하면 URL 파라미터 기반으로 Select 유지
+  useEffect(() => {
+    if (id) {
+      const inNatural = naturalDisasters.find((d) => d.name === id);
+      const inSocial = socialDisasters.find((d) => d.name === id);
+
+      if (inNatural) {
+        setCategory('자연 재난');
+        setDisaster(inNatural.name);
+      } else if (inSocial) {
+        setCategory('사회 재난');
+        setDisaster(inSocial.name);
+      }
+    }
+  }, [id]);
 
   //카테고리 선택
   const handleCategoryChange = (event: SelectChangeEvent) => {
