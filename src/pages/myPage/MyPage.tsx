@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, Typography, Card, CardContent, Avatar, Divider } from '@mui/material';
 import { jwtDecode } from 'jwt-decode';
 
