@@ -10,7 +10,15 @@ dotenv.config();
 const app = express();
 // const prisma = new PrismaClient();
 
-app.use(cors());
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://emergency-alarm.vercel.app',
+];
+
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true,
+}));
 app.use(express.json());
 app.use('/api', authRoutes);
 
@@ -19,5 +27,5 @@ app.use('/api/users', userRoutes);
 
 const PORT = 3001;
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`🚀 Server running`);
 });
