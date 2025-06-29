@@ -8,6 +8,7 @@ import {
   styled,
 } from '@mui/material';
 import axios from 'axios';
+import AddressSearch from '../../components/AddressSearch';
 
 const Wrapper = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -15,12 +16,11 @@ const Wrapper = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   minHeight: '100vh',
   backgroundColor: theme.palette.background.default,
-  fontFamily: theme.typography.fontFamily,
 }));
 
 const SignupCard = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(5),
-  maxWidth: 460,
+  maxWidth: 500,
   width: '100%',
   backgroundColor: '#fff',
   borderRadius: theme.spacing(2),
@@ -28,9 +28,10 @@ const SignupCard = styled(Paper)(({ theme }) => ({
 }));
 
 const Title = styled(Typography)(({ theme }) => ({
-  ...theme.typography.h1,
+  ...theme.typography.h4,
   textAlign: 'center',
-  marginBottom: theme.spacing(1),
+  fontWeight: 700,
+  marginBottom: theme.spacing(2),
 }));
 
 const Subtitle = styled(Typography)(({ theme }) => ({
@@ -40,18 +41,26 @@ const Subtitle = styled(Typography)(({ theme }) => ({
 }));
 
 const LoginLink = styled(Typography)(({ theme }) => ({
-  ...theme.typography.body1,
+  ...theme.typography.body2,
   textAlign: 'center',
   color: theme.palette.primary.main,
   fontWeight: 'bold',
   cursor: 'pointer',
+  marginTop: theme.spacing(2),
 }));
+
+const ReadOnlyInput = styled(TextField)({
+  marginTop: 8,
+});
 
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [address1, setAddress1] = useState('');
+  const [address2, setAddress2] = useState('');
+  const [address3, setAddress3] = useState('');
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,6 +74,9 @@ const Signup = () => {
         email,
         name: nickname,
         password,
+        address1,
+        address2,
+        address3,
       });
 
       console.log('회원가입 성공:', response.data);
@@ -73,6 +85,16 @@ const Signup = () => {
       console.error('회원가입 실패:', error);
       alert('회원가입 실패! 서버 확인해주세요.');
     }
+  };
+
+  const handleAddressComplete = (data: any) => {
+    const sido = data.sido || '';
+    const sigungu = data.sigungu || '';
+    const bname = data.bname || '';
+
+    setAddress1(sido);
+    setAddress2(sigungu);
+    setAddress3(bname);
   };
 
   return (
@@ -117,6 +139,31 @@ const Signup = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
+
+          <AddressSearch onComplete={handleAddressComplete} />
+
+          <ReadOnlyInput
+            fullWidth
+            label="주소1 (시/도)"
+            margin="dense"
+            value={address1}
+            InputProps={{ readOnly: true }}
+          />
+          <ReadOnlyInput
+            fullWidth
+            label="주소2 (시군구)"
+            margin="dense"
+            value={address2}
+            InputProps={{ readOnly: true }}
+          />
+          <ReadOnlyInput
+            fullWidth
+            label="주소3 (읍면동)"
+            margin="dense"
+            value={address3}
+            InputProps={{ readOnly: true }}
+          />
+
           <Button
             type="submit"
             fullWidth
@@ -128,9 +175,6 @@ const Signup = () => {
             회원가입 완료
           </Button>
 
-          <Typography variant="body1" textAlign="center" sx={{ mt: 2 }}>
-            이미 계정이 있으신가요?
-          </Typography>
           <LoginLink onClick={() => alert('로그인으로 이동')}>
             로그인
           </LoginLink>

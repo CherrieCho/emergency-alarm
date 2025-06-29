@@ -5,12 +5,18 @@
   "type": "commonjs",
   "scripts": {
     "start": "concurrently \"vite\" \"ts-node-dev --respawn --project tsconfig.node.json src/server/index.ts\"",
-    "dev": "vite",
+    "dev": "ts-node-dev src/server/index.ts",
     "dev:client": "vite",
     "dev:server": "ts-node-dev --respawn --project tsconfig.node.json src/server/index.ts",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prisma:migrate": "prisma migrate dev --schema=src/server/prisma/schema.prisma",
+    "prisma:studio": "prisma studio --schema=src/server/prisma/schema.prisma",
+    "prisma:generate": "prisma generate --schema=src/server/prisma/schema.prisma"
+  },
+  "prisma": {
+    "schema": "src/server/prisma/schema.prisma"
   },
   "dependencies": {
     "@egjs/react-flicking": "^4.13.0",
@@ -31,6 +37,7 @@
     "dotenv": "^17.0.0",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-intersection-observer": "^9.16.0",
