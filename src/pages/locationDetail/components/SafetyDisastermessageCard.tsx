@@ -54,7 +54,7 @@ const SafetyDisastermessageCard = ({
     // DST_SE_NM,
     // MDFCN_YMD,
   } = safetyDisasterMessage;
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, _] = useSearchParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const selectedRegion = searchParams.get('region') || '전체';

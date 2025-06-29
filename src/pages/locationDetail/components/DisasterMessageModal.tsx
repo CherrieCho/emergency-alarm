@@ -11,14 +11,14 @@ import CloseIcon from '@mui/icons-material/Close';
 import WarningIcon from '@mui/icons-material/Warning';
 import type { SafetyDisasterMessages } from '../../../models';
 
-const StyledDialog = styled(Dialog)(({ theme }) => ({
+const StyledDialog = styled(Dialog)({
   '& .MuiDialog-paper': {
     borderRadius: '12px',
     maxWidth: '600px',
     width: '90%',
     maxHeight: '80vh',
   },
-}));
+});
 
 const ModalHeader = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -44,15 +44,7 @@ const DisasterMessageModal = ({
   onClose,
   safetyDisasterMessage,
 }: DisasterMessageModalProps) => {
-  const {
-    MSG_CN,
-    RCPTN_RGN_NM,
-    CRT_DT,
-    EMRG_STEP_NM,
-    DST_SE_NM,
-    REG_YMD,
-    MDFCN_YMD,
-  } = safetyDisasterMessage;
+  const { MSG_CN, RCPTN_RGN_NM, CRT_DT } = safetyDisasterMessage;
 
   return (
     <StyledDialog open={open} onClose={onClose} maxWidth='md' fullWidth>
