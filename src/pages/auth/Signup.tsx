@@ -70,7 +70,7 @@ const Signup = () => {
     }
 
     try {
-      const response = await axios.post(`${import.meta.env.VITE_APP_DEP_API_URL}/users`, {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/users`, {
         email,
         name: nickname,
         password,
