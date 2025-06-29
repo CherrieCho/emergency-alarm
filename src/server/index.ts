@@ -29,7 +29,7 @@ app.use('/api', authRoutes);
 // ✅ /api/users 라우터 연결
 app.use('/api/users', userRoutes);
 
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-  console.log(`🚀 Server running`);
+const port = Number(process.env.PORT) || 3001;
+const server = app.listen(port, '0.0.0.0', () => {
+  console.log(`🚀 Server running on port ${port}`);
 });

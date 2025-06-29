@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "commonjs",
   "scripts": {
-    "start": "node dist/server/index.js",
+    "start": "node dist/index.js",
     "dev": "concurrently \"vite\" \"ts-node-dev --respawn --project tsconfig.node.json src/server/index.ts\"",
     "dev:client": "vite",
     "dev:server": "ts-node-dev --respawn --project tsconfig.node.json src/server/index.ts",
