@@ -35,7 +35,15 @@ router.post(
     }
 
     // 토큰 발급
-    const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign(
+      {
+        userId: user.id,
+        name: user.name,
+        email: user.email,
+      },
+      JWT_SECRET,
+      { expiresIn: '1h' }
+    );
 
     res.json({
       token,
