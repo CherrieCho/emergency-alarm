@@ -1,6 +1,5 @@
 import app from './app';
 import dotenv from 'dotenv';
-import '../types/express';
 
 dotenv.config();
 

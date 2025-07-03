@@ -32,7 +32,7 @@ app.use(
 app.use(express.json());
 
 // ✅ 라우터 연결
-app.use('/api/users', userRoutes);
-app.use('/api', authRoutes);
+app.use('/users', userRoutes);
+app.use('/auth', authRoutes);
 
 export default app;

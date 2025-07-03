@@ -10,6 +10,7 @@ import {
 import axios from 'axios';
 import AddressSearch from '../../components/AddressSearch';
 import { useNavigate } from 'react-router-dom';
+import { backendApi } from '../../utils/backendApi';
 
 const Wrapper = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -73,20 +74,16 @@ const Signup = () => {
     }
 
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/users`,
-        {
-          email,
-          name: nickname,
-          password,
-          address1,
-          address2,
-          address3,
-        }
-      );
+      await backendApi.post('/users/register', {
+        email,
+        name: nickname,
+        password,
+        address1,
+        address2,
+        address3,
+      });
 
-      console.log('회원가입 성공:', response.data);
-      alert('회원가입 성공!');
+      alert('회원 가입이 완료되었습니다!');
       navigate('/login');
     } catch (error) {
       console.error('회원가입 실패:', error);

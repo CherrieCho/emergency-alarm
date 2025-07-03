@@ -11,6 +11,7 @@ import {
   // Alert,
 } from '@mui/material';
 import { login } from '../../apis/auth';
+import { backendApi } from '../../utils/backendApi';
 import { jwtDecode } from 'jwt-decode';
 
 const Wrapper = styled(Box)(({ theme }) => ({
@@ -61,17 +62,22 @@ const Auth = () => {
     e.preventDefault();
 
     try {
-      const response = await login(email, password);
-      const { token, user } = response;
+      const response = await backendApi.post('/auth/login', {
+        email,
+        password,
+      });
 
-      // 로컬 스토리지 저장
+      const token = response.data.token;
       localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user)); // 서버가 준 user 객체 저장
 
-      navigate('/'); // 로그인 후 이동
+      // JWT 디코딩해서 user 정보 저장
+      const decoded = jwtDecode(token);
+      localStorage.setItem('user', JSON.stringify(decoded));
+
+      console.log('로그인 성공');
+      navigate('/');
     } catch (err: any) {
       alert('로그인 실패: ' + (err.response?.data?.message || err.message));
-      console.error('로그인 에러:', err);
     }
   };
 
