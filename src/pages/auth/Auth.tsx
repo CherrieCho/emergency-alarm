@@ -11,6 +11,7 @@ import {
   // Alert,
 } from '@mui/material';
 import { login } from '../../apis/auth';
+import { jwtDecode } from 'jwt-decode';
 
 const Wrapper = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -55,16 +56,22 @@ const Auth = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
+  //로그인 실행
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      const data = await login(email, password);
-      localStorage.setItem('token', data.token); // ✅ data는 { token, user } 객체여야 함
-      console.log('로그인 성공:', data.user);
-      navigate('/'); // 또는 이동할 페이지
-    } catch (err) {
-      console.error('로그인 실패:', err);
+      const response = await login(email, password);
+      const { token, user } = response;
+
+      // 로컬 스토리지 저장
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user)); // 서버가 준 user 객체 저장
+
+      navigate('/'); // 로그인 후 이동
+    } catch (err: any) {
+      alert('로그인 실패: ' + (err.response?.data?.message || err.message));
+      console.error('로그인 에러:', err);
     }
   };
 
