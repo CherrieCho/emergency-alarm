@@ -1,8 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import userRoutes from './routes/user.routes';
-import authRoutes from './routes/auth.routes';
+import userRoutes from './routes/userRoutes';
+import authRoutes from './routes/authRoutes';
 
 dotenv.config();
 
@@ -12,8 +12,6 @@ const app = express();
 const allowedOrigins = [
   'http://localhost:3000',
   'https://emergency-alarm.vercel.app',
-  'https://emergency-alarm-two.vercel.app',
-  'https://emergency-alarm-two-production.up.railway.app',
 ];
 
 // ✅ CORS 설정
