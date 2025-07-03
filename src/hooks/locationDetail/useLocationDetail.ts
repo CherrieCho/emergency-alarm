@@ -231,22 +231,22 @@ const generateMockData = (
   };
 };
 
-// const getMockApiData = async (
-//   params: SafetyDisasterMessagesRequest
-// ): Promise<SafetyDisasterMessagesResponse> => {
-//   // API 요청 대신 임시 데이터 반환
-//   return generateMockData(params.pageNo || 1, params.rgnNm || '');
-// };
+const getMockApiData = async (
+  params: SafetyDisasterMessagesRequest
+): Promise<SafetyDisasterMessagesResponse> => {
+  // API 요청 대신 임시 데이터 반환
+  return generateMockData(params.pageNo || 1, params.rgnNm || '');
+};
 
 const getDetailSafetyDisasterMessages = async (
   params: SafetyDisasterMessagesRequest
 ) => {
   const SERVICE_KEY = import.meta.env.VITE_APP_API_KEY;
 
-  // // 개발 환경에서 목데이터 사용
-  // if (import.meta.env.DEV) {
-  //   return getMockApiData(params);
-  // }
+  // 개발 환경에서 목데이터 사용
+  if (import.meta.env.DEV) {
+    return getMockApiData(params);
+  }
 
   const response = await axios.get<SafetyDisasterMessagesResponse>(
     '/safety-api/V2/api/DSSP-IF-00247',
