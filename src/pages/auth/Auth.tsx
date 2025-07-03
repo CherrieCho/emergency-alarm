@@ -55,8 +55,6 @@ const Auth = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  console.log('API URL:', import.meta.env.VITE_API_URL);
-
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 

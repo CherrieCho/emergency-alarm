@@ -6,7 +6,7 @@ import DisasterTypeInfo from './components/DisasterTypeInfo';
 
 const StyledStack = styled(Stack)(({ theme }) => ({
   width: '100%',
-  height: '100vh',
+  height: 'auto',
   maxWidth: '1200px',
   margin: '0px auto',
   padding: '50px',

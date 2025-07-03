@@ -4,11 +4,11 @@
   "version": "0.0.0",
   "type": "commonjs",
   "scripts": {
-    "start": "node dist-server/index.js",
+    "start": "node dist/server/index.js",
     "dev": "concurrently \"vite\" \"ts-node-dev --respawn --project tsconfig.node.json src/server/index.ts\"",
     "dev:client": "vite",
     "dev:server": "ts-node-dev --respawn --project tsconfig.node.json src/server/index.ts",
-    "build": "tsc --project tsconfig.node.json && vite build",
+    "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "prisma:migrate": "prisma migrate dev --schema=src/server/prisma/schema.prisma",

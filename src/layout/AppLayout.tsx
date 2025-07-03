@@ -6,7 +6,7 @@ import Footer from './components/Footer';
 const Layout = styled('div')({
   display: 'flex',
   flexDirection: 'column',
-  height: '100vh',
+  minHeight: '100vh',
 });
 
 const AppLayout = () => {
