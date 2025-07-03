@@ -10,7 +10,6 @@ import {
   // Snackbar,
   // Alert,
 } from '@mui/material';
-import { login } from '../../apis/auth';
 import { backendApi } from '../../utils/backendApi';
 import { jwtDecode } from 'jwt-decode';
 

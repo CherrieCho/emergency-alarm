@@ -7,7 +7,6 @@ import {
   Box,
   styled,
 } from '@mui/material';
-import axios from 'axios';
 import AddressSearch from '../../components/AddressSearch';
 import { useNavigate } from 'react-router-dom';
 import { backendApi } from '../../utils/backendApi';
