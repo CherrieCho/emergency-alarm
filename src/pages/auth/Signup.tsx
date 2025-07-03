@@ -9,6 +9,8 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 import AddressSearch from '../../components/AddressSearch';
+import { useNavigate } from 'react-router-dom';
+import { backendApi } from '../../utils/backendApi';
 
 const Wrapper = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -61,7 +63,9 @@ const Signup = () => {
   const [address1, setAddress1] = useState('');
   const [address2, setAddress2] = useState('');
   const [address3, setAddress3] = useState('');
+  const navigate = useNavigate();
 
+  //회원가입
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     if (password !== confirmPassword) {
@@ -70,7 +74,7 @@ const Signup = () => {
     }
 
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/users`, {
+      await backendApi.post('/users/register', {
         email,
         name: nickname,
         password,
@@ -79,11 +83,11 @@ const Signup = () => {
         address3,
       });
 
-      console.log('회원가입 성공:', response.data);
-      alert('회원가입 성공!');
+      alert('회원 가입이 완료되었습니다!');
+      navigate('/login');
     } catch (error) {
       console.error('회원가입 실패:', error);
-      alert('회원가입 실패! 서버 확인해주세요.');
+      alert('회원가입 실패!');
     }
   };
 
@@ -103,38 +107,38 @@ const Signup = () => {
         <Title>회원가입</Title>
         <Subtitle>필수 정보를 입력해주세요.</Subtitle>
 
-        <Box component="form" onSubmit={handleSignup}>
+        <Box component='form' onSubmit={handleSignup}>
           <TextField
             fullWidth
-            label="이메일"
-            type="email"
-            margin="normal"
+            label='이메일'
+            type='email'
+            margin='normal'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
           <TextField
             fullWidth
-            label="닉네임"
-            margin="normal"
+            label='닉네임'
+            margin='normal'
             value={nickname}
             onChange={(e) => setNickname(e.target.value)}
             required
           />
           <TextField
             fullWidth
-            label="비밀번호"
-            type="password"
-            margin="normal"
+            label='비밀번호'
+            type='password'
+            margin='normal'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
           <TextField
             fullWidth
-            label="비밀번호 확인"
-            type="password"
-            margin="normal"
+            label='비밀번호 확인'
+            type='password'
+            margin='normal'
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
@@ -144,40 +148,38 @@ const Signup = () => {
 
           <ReadOnlyInput
             fullWidth
-            label="주소1 (시/도)"
-            margin="dense"
+            label='주소1 (시/도)'
+            margin='dense'
             value={address1}
             InputProps={{ readOnly: true }}
           />
           <ReadOnlyInput
             fullWidth
-            label="주소2 (시군구)"
-            margin="dense"
+            label='주소2 (시군구)'
+            margin='dense'
             value={address2}
             InputProps={{ readOnly: true }}
           />
           <ReadOnlyInput
             fullWidth
-            label="주소3 (읍면동)"
-            margin="dense"
+            label='주소3 (읍면동)'
+            margin='dense'
             value={address3}
             InputProps={{ readOnly: true }}
           />
 
           <Button
-            type="submit"
+            type='submit'
             fullWidth
-            variant="contained"
-            color="primary"
-            size="large"
+            variant='contained'
+            color='primary'
+            size='large'
             sx={{ mt: 3 }}
           >
             회원가입 완료
           </Button>
 
-          <LoginLink onClick={() => alert('로그인으로 이동')}>
-            로그인
-          </LoginLink>
+          <LoginLink onClick={() => alert('로그인으로 이동')}>로그인</LoginLink>
         </Box>
       </SignupCard>
     </Wrapper>

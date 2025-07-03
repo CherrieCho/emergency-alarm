@@ -243,10 +243,10 @@ const getDetailSafetyDisasterMessages = async (
 ) => {
   const SERVICE_KEY = import.meta.env.VITE_APP_API_KEY;
 
-  // 개발 환경에서 목데이터 사용
-  if (import.meta.env.DEV) {
-    return getMockApiData(params);
-  }
+  // // 개발 환경에서 목데이터 사용
+  // if (import.meta.env.DEV) {
+  //   return getMockApiData(params);
+  // }
 
   const response = await axios.get<SafetyDisasterMessagesResponse>(
     '/safety-api/V2/api/DSSP-IF-00247',
@@ -282,14 +282,14 @@ const useLocationDetailDisasterMessages = (params: {
       const totalPages = Math.ceil((lastPage.totalCount || 0) / 10);
 
       // 기존 로직
-      // return currentPage < totalPages ? currentPage + 1 : undefined;
+      return currentPage < totalPages ? currentPage + 1 : undefined;
 
       // 테스트용 최대 20개까지만 로드 (2페이지)
-      const maxPages = 2;
+      // const maxPages = 2;
 
-      return currentPage < Math.min(totalPages, maxPages)
-        ? currentPage + 1
-        : undefined;
+      // return currentPage < Math.min(totalPages, maxPages)
+      //   ? currentPage + 1
+      //   : undefined;
     },
     select: (data) => {
       // 클라이언트에서 필터링

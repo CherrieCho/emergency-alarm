@@ -1,11 +1,12 @@
 import { Box, styled } from '@mui/material';
 import Navbar from './components/Navbar';
 import { Outlet } from 'react-router-dom';
+import Footer from './components/Footer';
 
 const Layout = styled('div')({
   display: 'flex',
   flexDirection: 'column',
-  height: '100vh',
+  minHeight: '100vh',
 });
 
 const AppLayout = () => {
@@ -24,6 +25,7 @@ const AppLayout = () => {
       >
         <Outlet />
       </Box>
+      <Footer />
     </Layout>
   );
 };

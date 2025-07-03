@@ -6,10 +6,7 @@
     "esModuleInterop": true,
     "verbatimModuleSyntax": false,
     "strict": true,
-    "skipLibCheck": true,
-    "outDir": "dist",        // ✅ dist로 통일
-    "noEmit": false,
-    "rootDir": "src/server"
+    "skipLibCheck": true
   },
   "include": ["src/server/**/*"],
   "exclude": ["vite.config.ts"]
