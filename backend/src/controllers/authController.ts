@@ -5,7 +5,6 @@ import { asyncHandler } from '../utils/asyncHandler';
 import { findUserByEmail } from '../models/userModel';
 
 const JWT_SECRET = process.env.JWT_SECRET!;
-if (!JWT_SECRET) throw new Error('❌ JWT_SECRET이 설정되어 있지 않습니다.');
 
 export const login = asyncHandler(async (req: Request, res: Response) => {
   const { email, password } = req.body;
