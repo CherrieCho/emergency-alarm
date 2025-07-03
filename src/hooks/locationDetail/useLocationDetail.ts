@@ -231,12 +231,12 @@ const generateMockData = (
   };
 };
 
-const getMockApiData = async (
-  params: SafetyDisasterMessagesRequest
-): Promise<SafetyDisasterMessagesResponse> => {
-  // API 요청 대신 임시 데이터 반환
-  return generateMockData(params.pageNo || 1, params.rgnNm || '');
-};
+// const getMockApiData = async (
+//   params: SafetyDisasterMessagesRequest
+// ): Promise<SafetyDisasterMessagesResponse> => {
+//   // API 요청 대신 임시 데이터 반환
+//   return generateMockData(params.pageNo || 1, params.rgnNm || '');
+// };
 
 const getDetailSafetyDisasterMessages = async (
   params: SafetyDisasterMessagesRequest
