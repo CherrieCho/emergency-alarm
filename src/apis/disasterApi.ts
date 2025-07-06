@@ -1,4 +1,8 @@
 import axios from 'axios';
+import type {
+  SafetyDisasterMessagesRequest,
+  SafetyDisasterMessagesResponse,
+} from '../models';
 
 const SERVICE_KEY = import.meta.env.VITE_APP_API_KEY;
 
@@ -13,5 +17,20 @@ export const getSafetyDisasterMessages = async () => {
   });
 
   console.log(response.data); // 구조 확인용
+  return response.data;
+};
+
+export const getDetailSafetyDisasterMessages = async (
+  params: SafetyDisasterMessagesRequest
+) => {
+  const SERVER_URL = import.meta.env.VITE_BACKEND_URL;
+
+  const response = await axios.get<SafetyDisasterMessagesResponse>(
+    `${SERVER_URL}/disasters/safety-messages`,
+    {
+      params,
+    }
+  );
+
   return response.data;
 };

@@ -1,26 +1,8 @@
-import axios from 'axios';
-import type {
-  SafetyDisasterMessagesRequest,
-  SafetyDisasterMessagesResponse,
-  DisasterCategory,
-} from '../../models';
+import type { DisasterCategory } from '../../models';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { REGION_FULL_NAMES } from '../../pages/locationDetail/constants';
-
-const getDetailSafetyDisasterMessages = async (
-  params: SafetyDisasterMessagesRequest
-) => {
-  const SERVER_URL = import.meta.env.VITE_BACKEND_URL;
-
-  const response = await axios.get<SafetyDisasterMessagesResponse>(
-    `${SERVER_URL}/disasters/safety-messages`,
-    {
-      params,
-    }
-  );
-
-  return response.data;
-};
+import { format } from 'date-fns';
+import { getDetailSafetyDisasterMessages } from '../../apis/disasterApi';
 
 const useLocationDetailDisasterMessages = (params: {
   rgnNm: string;
@@ -33,7 +15,7 @@ const useLocationDetailDisasterMessages = (params: {
         numOfRows: 10,
         pageNo: pageParam,
         returnType: 'json',
-        crtDt: '',
+        crtDt: format(new Date(), 'yyyyMMdd'),
         rgnNm: REGION_FULL_NAMES[params.rgnNm],
       }),
     initialPageParam: 1,

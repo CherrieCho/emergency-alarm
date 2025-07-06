@@ -11,7 +11,7 @@ export const getSafetyDisasterMessages = asyncHandler(
       return res.status(500).json({ message: 'API 키가 설정되지 않았습니다.' });
     }
 
-    const { pageNo, rgnNm, numOfRows, returnType } = req.query;
+    const { pageNo, rgnNm, numOfRows, returnType, crtDt } = req.query;
 
     try {
       const response = await axios.get('/safety-api/V2/api/DSSP-IF-00247', {
@@ -21,7 +21,7 @@ export const getSafetyDisasterMessages = asyncHandler(
           numOfRows,
           returnType,
           pageNo,
-          crtDt: '',
+          crtDt,
           rgnNm,
         },
       });
