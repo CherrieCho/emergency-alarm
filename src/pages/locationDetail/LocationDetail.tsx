@@ -60,7 +60,7 @@ const LocationDetail = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [isBookMarked, setIsBookMarked] = useState(false);
+  // const [isBookMarked, setIsBookMarked] = useState(false);
 
   const [ref, inView] = useInView();
   const selectedRegion = searchParams.get('region') || '전체';
