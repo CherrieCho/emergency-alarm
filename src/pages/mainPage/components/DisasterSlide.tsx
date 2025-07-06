@@ -82,7 +82,7 @@ const DisasterCarousel = () => {
         >
           {isPending && <SkeletonCards count={2} />}
           {!isPending &&
-            disasterMessages?.body.map((message) => (
+            disasterMessages?.body?.map((message) => (
               <SwiperSlide key={message.SN}>
                 <SafetyDisastermessageCard safetyDisasterMessage={message} />
               </SwiperSlide>
