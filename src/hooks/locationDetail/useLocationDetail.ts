@@ -13,7 +13,7 @@ const getDetailSafetyDisasterMessages = async (
   const SERVER_URL = import.meta.env.VITE_BACKEND_URL;
 
   const response = await axios.get<SafetyDisasterMessagesResponse>(
-    `${SERVER_URL}disasters/safety-messages`,
+    `${SERVER_URL}/disasters/safety-messages`,
     {
       params,
     }
