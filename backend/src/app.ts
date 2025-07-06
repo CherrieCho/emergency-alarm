@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import userRoutes from './routes/userRoutes';
 import authRoutes from './routes/authRoutes';
+import disasterRoutes from './routes/disasterRoutes';
 
 dotenv.config();
 
@@ -34,5 +35,6 @@ app.use(express.json());
 // ✅ 라우터 연결
 app.use('/users', userRoutes);
 app.use('/auth', authRoutes);
+app.use('/disasters', disasterRoutes);
 
 export default app;
