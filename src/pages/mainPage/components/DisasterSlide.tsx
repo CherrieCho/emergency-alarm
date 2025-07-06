@@ -5,7 +5,6 @@ import {
   useTheme,
   IconButton,
 } from '@mui/material';
-import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -14,39 +13,9 @@ import { useState } from 'react';
 import type { Swiper as SwiperClass } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
-
-const disasterData = [
-  {
-    region: '창녕군1',
-    message:
-      '오늘 19:18 창녕군 영산휴게소(하행선)에서 발생한 화학사고의 대응이 완료되었습니다. 휴게소 이용객 및 인근 주민은 일상생활로 돌아가시기 바랍니다.',
-    time: '2025/06/25 20:33:50',
-  },
-  {
-    region: '창녕군2',
-    message:
-      '오늘 19:18 창녕군 영산휴게소(하행선)에서 발생한 화학사고의 대응이 완료되었습니다. 휴게소 이용객 및 인근 주민은 일상생활로 돌아가시기 바랍니다.',
-    time: '2025/06/25 20:33:50',
-  },
-  {
-    region: '창녕군3',
-    message:
-      '오늘 19:18 창녕군 영산휴게소(하행선)에서 발생한 화학사고의 대응이 완료되었습니다. 휴게소 이용객 및 인근 주민은 일상생활로 돌아가시기 바랍니다.',
-    time: '2025/06/25 20:33:50',
-  },
-  {
-    region: '창녕군4',
-    message:
-      '오늘 19:18 창녕군 영산휴게소(하행선)에서 발생한 화학사고의 대응이 완료되었습니다. 휴게소 이용객 및 인근 주민은 일상생활로 돌아가시기 바랍니다.',
-    time: '2025/06/25 20:33:50',
-  },
-  {
-    region: '창녕군5',
-    message:
-      '오늘 19:18 창녕군 영산휴게소(하행선)에서 발생한 화학사고의 대응이 완료되었습니다. 휴게소 이용객 및 인근 주민은 일상생활로 돌아가시기 바랍니다.',
-    time: '2025/06/25 20:33:50',
-  },
-];
+import useMainPageDisasterMessages from '../../../hooks/mainPage/useMainPage';
+import SafetyDisastermessageCard from '../../locationDetail/components/SafetyDisastermessageCard';
+import SkeletonCards from '../../locationDetail/components/SkeletonCards';
 
 const DisasterCarousel = () => {
   const theme = useTheme();
@@ -57,6 +26,8 @@ const DisasterCarousel = () => {
 
   const handlePrev = () => swiper?.slidePrev();
   const handleNext = () => swiper?.slideNext();
+
+  const { data: disasterMessages, isPending } = useMainPageDisasterMessages();
 
   return (
     <Box flex={1} padding='40px'>
@@ -109,26 +80,13 @@ const DisasterCarousel = () => {
             setIsEnd(s.isEnd);
           }}
         >
-          {disasterData.map((item, idx) => (
-            <SwiperSlide key={idx}>
-              <Box
-                sx={{
-                  border: '1px solid rgba(0,0,0,0.1)',
-                  borderRadius: '15px',
-                  padding: '20px',
-                  backgroundColor: '#fff',
-                  height: '100%',
-                }}
-              >
-                <Box display='flex' alignItems='center' gap={1} mb={1}>
-                  <WarningAmberIcon fontSize='large' />
-                  <Typography fontWeight='bold'>[{item.region}]</Typography>
-                </Box>
-                <Typography>{item.message}</Typography>
-                <Typography variant='caption'>발송일시: {item.time}</Typography>
-              </Box>
-            </SwiperSlide>
-          ))}
+          {isPending && <SkeletonCards count={2} />}
+          {!isPending &&
+            disasterMessages?.body.map((message) => (
+              <SwiperSlide key={message.SN}>
+                <SafetyDisastermessageCard safetyDisasterMessage={message} />
+              </SwiperSlide>
+            ))}
         </Swiper>
       </Box>
     </Box>
