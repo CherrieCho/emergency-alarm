@@ -10,7 +10,6 @@ import { useInView } from 'react-intersection-observer';
 import SkeletonCards from './components/SkeletonCards';
 import Flicking from '@egjs/react-flicking';
 import type { DisasterCategory } from '../../models';
-import BookMarkButton from './components/BookMarkButton';
 import EmptyNotice from './components/EmptyNotice';
 
 const Container = styled(Box)(({ theme }) => ({
@@ -61,7 +60,7 @@ const LocationDetail = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [isBookMarked, setIsBookMarked] = useState(false);
+  // const [isBookMarked, setIsBookMarked] = useState(false);
 
   const [ref, inView] = useInView();
   const selectedRegion = searchParams.get('region') || '전체';
@@ -89,6 +88,11 @@ const LocationDetail = () => {
       fetchNextPage();
     }
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  // 페이지 진입 시 스크롤을 맨 위로
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [selectedRegion, selectedCategory]);
 
   const handleSelectRegion = (newRegion: string) => {
     if (newRegion === '전체') {
@@ -120,12 +124,12 @@ const LocationDetail = () => {
           <RoomIcon />
           <Typography variant='h1'>{selectedRegion}</Typography>
         </div>
-        {!isAllRegionSelected && (
+        {/* {!isAllRegionSelected && (
           <BookMarkButton
             isBookMarked={isBookMarked}
             onClick={() => setIsBookMarked(!isBookMarked)}
           />
-        )}
+        )} */}
       </Header>
 
       <FlickingContainer>
@@ -155,29 +159,32 @@ const LocationDetail = () => {
             .length === 0 ? (
             <EmptyNotice />
           ) : (
-            <Box
-              display='grid'
-              gridTemplateColumns={{
-                xs: '1fr', // 모바일: 1열
-                sm: 'repeat(2, 1fr)', // 태블릿 이상: 2열
-              }}
-              gap='16px'
-            >
-              {safetyDisasterMessages?.pages
-                ?.flatMap((page) => page.body || [])
-                .map((message) => (
-                  <SafetyDisastermessageCard
-                    key={message.SN}
-                    safetyDisasterMessage={message}
-                  />
-                ))}
-            </Box>
+            <>
+              <Box
+                display='grid'
+                gridTemplateColumns={{
+                  xs: '1fr', // 모바일: 1열
+                  sm: 'repeat(2, 1fr)', // 태블릿 이상: 2열
+                }}
+                gap='16px'
+              >
+                {safetyDisasterMessages?.pages
+                  ?.flatMap((page) => page.body || [])
+                  .map((message) => (
+                    <SafetyDisastermessageCard
+                      key={message.SN}
+                      safetyDisasterMessage={message}
+                    />
+                  ))}
+              </Box>
+              {/* 무한스크롤 트리거 */}
+              <Box ref={ref}>
+                {isFetchingNextPage && <SkeletonCards count={2} />}
+              </Box>
+            </>
           )}
         </>
       )}
-
-      {/* 무한스크롤 트리거 */}
-      <Box ref={ref}>{isFetchingNextPage && <SkeletonCards count={2} />}</Box>
 
       <RegionSelectModal
         open={modalOpen}
