@@ -6,6 +6,8 @@ import { useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
 import DisasterMessageModal from './DisasterMessageModal';
 
+const CARD_HEIGHT = 150;
+
 const AlertCard = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
   border: `1px solid ${theme.palette.grey[300]}`,
@@ -13,9 +15,11 @@ const AlertCard = styled(Box)(({ theme }) => ({
   padding: '16px',
   display: 'flex',
   flexDirection: 'column',
+  justifyContent: 'space-between',
   gap: '8px',
   cursor: 'pointer',
   transition: 'all 0.2s ease-in-out',
+  minHeight: CARD_HEIGHT,
   '&:hover': {
     border: `1px solid ${theme.palette.primary.main}`,
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
@@ -36,6 +40,8 @@ const MessageContent = styled(Typography)({
   WebkitLineClamp: 4,
   overflow: 'hidden',
   textOverflow: 'ellipsis',
+  maxHeight: 'calc(1.4em * 4)',
+  wordBreak: 'break-word',
 });
 
 interface SafetyDisastermessageCardProps {
