@@ -32,11 +32,11 @@ const DisasterTypeInfo = () => {
       >
         재난별 정보조회
       </Typography>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} sx={{ justifyContent: 'center' }}>
         {disasterType.map((item, index) => (
           <Grid
             key={index}
-            size={{ xs: 6, sm: 5, md: 4, lg: 3 }}
+            size={{ xs: 6, md: 5, lg: 3 }}
             sx={{
               display: 'flex',
               justifyContent: 'center',

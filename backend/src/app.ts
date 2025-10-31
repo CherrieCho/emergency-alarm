@@ -9,13 +9,13 @@ dotenv.config();
 
 const app = express();
 
-// ✅ 허용할 프론트엔드 주소 목록
+//허용할 프론트엔드 주소 목록
 const allowedOrigins = [
   'http://localhost:3000',
   'https://emergency-alarm.vercel.app',
 ];
 
-// ✅ CORS 설정
+//CORS 설정
 app.use(
   cors({
     origin: (origin, callback) => {
@@ -29,10 +29,10 @@ app.use(
   })
 );
 
-// ✅ JSON 요청 파싱
+//JSON 요청 파싱
 app.use(express.json());
 
-// ✅ 라우터 연결
+//라우터 연결
 app.use('/users', userRoutes);
 app.use('/auth', authRoutes);
 app.use('/disasters', disasterRoutes);
