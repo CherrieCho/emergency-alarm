@@ -27,7 +27,14 @@ const DisasterCarousel = () => {
   const handlePrev = () => swiper?.slidePrev();
   const handleNext = () => swiper?.slideNext();
 
-  const { data: disasterMessages, isPending } = useMainPageDisasterMessages();
+  const {
+    data: disasterMessages,
+    isPending,
+    error,
+    isError,
+  } = useMainPageDisasterMessages();
+
+  console.log('데이터', disasterMessages);
 
   return (
     <Box flex={1} padding='40px'>
@@ -81,10 +88,18 @@ const DisasterCarousel = () => {
           }}
         >
           {isPending && <SkeletonCards count={2} />}
+          {isError && (
+            <Typography color='error'>
+              로딩 실패: {(error as any)?.message ?? '서버 오류'}
+            </Typography>
+          )}
           {!isPending &&
+            !isError &&
             disasterMessages?.body?.map((message) => (
-              <SwiperSlide key={message.SN}>
-                <SafetyDisastermessageCard safetyDisasterMessage={message} />
+              <SwiperSlide key={message.SN} style={{ height: 'auto' }}>
+                <Box sx={{ height: '100%' }}>
+                  <SafetyDisastermessageCard safetyDisasterMessage={message} />
+                </Box>
               </SwiperSlide>
             ))}
         </Swiper>

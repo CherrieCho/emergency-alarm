@@ -1,13 +1,16 @@
 import type { DisasterCategory } from '../../models';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { REGION_FULL_NAMES } from '../../pages/locationDetail/constants';
-import { format } from 'date-fns';
+import { addDays, format } from 'date-fns';
 import { getDetailSafetyDisasterMessages } from '../../apis/disasterApi';
 
 const useLocationDetailDisasterMessages = (params: {
   rgnNm: string;
   category: DisasterCategory | '';
 }) => {
+  // 0시되면 재난문자 0개뜨는거 방지: 어제 날짜를 디폴트로 설정
+  const yesterday = format(addDays(new Date(), -1), 'yyyyMMdd');
+
   return useInfiniteQuery({
     queryKey: ['locationDetailDisasterMessages', params.rgnNm, params.category],
     queryFn: ({ pageParam = 1 }) =>
@@ -15,7 +18,7 @@ const useLocationDetailDisasterMessages = (params: {
         numOfRows: 10,
         pageNo: pageParam,
         returnType: 'json',
-        crtDt: format(new Date(), 'yyyyMMdd'),
+        crtDt: yesterday,
         rgnNm: REGION_FULL_NAMES[params.rgnNm],
       }),
     initialPageParam: 1,

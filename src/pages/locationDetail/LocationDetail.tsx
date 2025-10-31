@@ -83,6 +83,8 @@ const LocationDetail = () => {
     category: selectedCategory as DisasterCategory,
   });
 
+  console.log('지역', safetyDisasterMessages);
+
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
@@ -155,7 +157,9 @@ const LocationDetail = () => {
       {isPending && <SkeletonCards count={10} />}
       {!isPending && (
         <>
-          {safetyDisasterMessages?.pages?.flatMap((page) => page.body || [])
+          {!safetyDisasterMessages ||
+          safetyDisasterMessages?.pages?.[0]?.body?.length === 0 ||
+          safetyDisasterMessages?.pages?.flatMap((page) => page.body || [])
             .length === 0 ? (
             <EmptyNotice />
           ) : (
