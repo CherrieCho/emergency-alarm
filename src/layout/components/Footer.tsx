@@ -10,10 +10,11 @@ const TEAM_MEMBERS = [
   { name: '최원석', url: 'https://github.com/choiwonseokgit' },
 ];
 
-const FooterContainer = styled(Box)({
+const FooterContainer = styled(Box)(({ theme }) => ({
   width: '100%',
   padding: '0',
-});
+  backgroundColor: theme.palette.background.paper,
+}));
 
 const FooterContents = styled(Box)(({ theme }) => ({
   maxWidth: '1200px',
@@ -24,9 +25,9 @@ const FooterContents = styled(Box)(({ theme }) => ({
   gridTemplateColumns: 'repeat(3, 1fr)',
   alignItems: 'center',
 
-  [theme.breakpoints.down('sm')]: {
+  [theme.breakpoints.down('md')]: {
     gridTemplateColumns: '1fr',
-    rowGap: '10px',
+    rowGap: '1em',
     textAlign: 'center',
     justifyItems: 'center',
   },
@@ -58,11 +59,9 @@ const Footer = () => {
   return (
     <FooterContainer>
       <FooterContents>
-        {/* 좌측: 로고 */}
         <Box sx={{ display: 'flex', alignItems: 'center', minWidth: '110px' }}>
           <LogoImage src={LogoImg} alt='logo-image' />
         </Box>
-        {/* 중앙: 컨셉 문구 */}
         <CenterText>
           <Typography variant='body2'>
             모두의 안전을 위해, 이재난전해가 함께합니다.
@@ -71,7 +70,6 @@ const Footer = () => {
             © 2025 이재난전해. All Rights Reserved
           </Typography>
         </CenterText>
-        {/* 우측: 개발자 & 깃허브 */}
         <DevBox>
           <GithubIconsRow>
             {TEAM_MEMBERS.map((member) => (

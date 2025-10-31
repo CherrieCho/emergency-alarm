@@ -22,7 +22,6 @@ function App() {
           <Route path=':id' element={<GuidelineDetail />} />
         </Route>
 
-        {/* ✅ 로그인한 사용자만 접근 가능한 마이페이지 */}
         <Route
           path='/mypage'
           element={
