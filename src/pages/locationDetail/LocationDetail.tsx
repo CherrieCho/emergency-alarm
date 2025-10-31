@@ -83,7 +83,7 @@ const LocationDetail = () => {
     category: selectedCategory as DisasterCategory,
   });
 
-  console.log('지역', safetyDisasterMessages);
+  // console.log('지역', safetyDisasterMessages);
 
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {

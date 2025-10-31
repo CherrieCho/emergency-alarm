@@ -34,7 +34,7 @@ const DisasterCarousel = () => {
     isError,
   } = useMainPageDisasterMessages();
 
-  console.log('데이터', disasterMessages);
+  // console.log('데이터', disasterMessages);
 
   return (
     <Box flex={1} padding='40px'>
