@@ -73,7 +73,7 @@ const Auth = () => {
       const decoded = jwtDecode(token);
       localStorage.setItem('user', JSON.stringify(decoded));
 
-      console.log('로그인 성공');
+      // console.log('로그인 성공');
       navigate('/');
     } catch (err: any) {
       alert('로그인 실패: ' + (err.response?.data?.message || err.message));

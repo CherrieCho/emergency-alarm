@@ -16,7 +16,7 @@ export const getSafetyDisasterMessages = async () => {
     },
   });
 
-  console.log(response.data); // 구조 확인용
+  // console.log(response.data); // 구조 확인용
   return response.data;
 };
 
